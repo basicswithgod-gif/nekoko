@@ -307,13 +307,13 @@ function nekoko_pending_listings_page() {
             wp_update_post( [ "ID" => $pid, "post_status" => "publish" ] );
             update_post_meta( $pid, "_nekoko_listing_status", "approved" );
             $prov = get_user_by( "id", $lst->post_author );
-            if ( $prov ) wp_mail( $prov->user_email, "Usluga odobrena - ".[$lst->post_title], nekoko_email_template( "listing-approved", [ "provider_name" => $prov->display_name, "listing_title" => $lst->post_title, "listing_url" => get_permalink($pid) ] ), $hdrs );
+            if ( $prov ) wp_mail( $prov->user_email, "Usluga odobrena - " . $lst->post_title, nekoko_email_template( "listing-approved", [ "provider_name" => $prov->display_name, "listing_title" => $lst->post_title, "listing_url" => get_permalink($pid) ] ), $hdrs );
             echo "<div class=\"notice notice-success\"><p>Usluga odobrena!</p></div>";
         } elseif ( $act === "reject-listing" ) {
             wp_update_post( [ "ID" => $pid, "post_status" => "draft" ] );
             update_post_meta( $pid, "_nekoko_listing_status", "rejected" );
             $prov = get_user_by( "id", $lst->post_author );
-            if ( $prov ) wp_mail( $prov->user_email, "Usluga odbijena - ".[$lst->post_title], nekoko_email_template( "listing-rejected", [ "provider_name" => $prov->display_name, "listing_title" => $lst->post_title, "reason" => "" ] ), $hdrs );
+            if ( $prov ) wp_mail( $prov->user_email, "Usluga odbijena - " . $lst->post_title, nekoko_email_template( "listing-rejected", [ "provider_name" => $prov->display_name, "listing_title" => $lst->post_title, "reason" => "" ] ), $hdrs );
             echo "<div class=\"notice notice-error\"><p>Usluga odbijena.</p></div>";
         }
     }
@@ -323,11 +323,48 @@ function nekoko_pending_listings_page() {
         $prov = get_user_by( "id", $l->post_author );
         $cats = get_the_terms( $l->ID, "service_category" );
         $cat  = $cats && !is_wp_error($cats) ? implode(", ",wp_list_pluck($cats,"name")) : "-";
-        $app  = wp_nonce_url( admin_url( "admin.php?page=nekoko-pending-listings&action=approve-listing&post_id=".[$l->ID] ), "nekoko_listing_action" );
-        $rej  = wp_nonce_url( admin_url( "admin.php?page=nekoko-pending-listings&action=reject-listing&post_id=".[$l->ID] ), "nekoko_listing_action" );
+        $app  = wp_nonce_url( admin_url( "admin.php?page=nekoko-pending-listings&action=approve-listing&post_id=" . $l->ID ), "nekoko_listing_action" );
+        $rej  = wp_nonce_url( admin_url( "admin.php?page=nekoko-pending-listings&action=reject-listing&post_id=" . $l->ID ), "nekoko_listing_action" );
         echo "<tr><td><a href=\"".esc_url(get_edit_post_link($l->ID))."\">".esc_html($l->post_title)."</a></td><td>".esc_html($prov?$prov->display_name:"-")."</td><td>".esc_html($cat)."</td><td>".esc_html(date_i18n("d.m.Y",strtotime($l->post_date)))."</td><td><a href=\"".esc_url($app)."\" class=\"button button-primary\" style=\"margin-right:8px;\">Odobri</a> <a href=\"".esc_url($rej)."\" class=\"button\">Odbij</a></td></tr>";
     }
     echo "</tbody></table></div>";
+}
+
+// US 4.3 - Listings Grid Shortcode
+add_shortcode( "nekoko_listings", "nekoko_listings_sc" );
+function nekoko_listings_sc( $atts ) {
+    $atts = shortcode_atts( [ "limit" => 6, "category" => "", "columns" => 3 ], $atts );
+    $args = [ "post_type" => "service_listing", "post_status" => "publish", "posts_per_page" => intval( $atts["limit"] ) ];
+    if ( $atts["category"] ) {
+        $args["tax_query"] = [ [ "taxonomy" => "service_category", "field" => "slug", "terms" => sanitize_text_field( $atts["category"] ) ] ];
+    }
+    $query = new WP_Query( $args );
+    if ( ! $query->have_posts() ) return "<p>Nema dostupnih usluga.</p>";
+    ob_start();
+    echo "<div class=\"listing-grid\">";
+    while ( $query->have_posts() ) {
+        $query->the_post();
+        $cats  = get_the_terms( get_the_ID(), "service_category" );
+        $cat   = $cats && !is_wp_error($cats) ? esc_html($cats[0]->name) : "";
+        $avg   = (float) get_post_meta( get_the_ID(), "_nekoko_avg_rating", true );
+        $count = (int) get_post_meta( get_the_ID(), "_nekoko_review_count", true );
+        echo "<div class=\"listing-card\">";
+        if ( has_post_thumbnail() ) echo "<div class=\"listing-image\"><a href=\"".esc_url(get_permalink())."\">".get_the_post_thumbnail( null, "medium" )."</a></div>";
+        echo "<div class=\"listing-body\">";
+        if ( $cat ) echo "<span class=\"category-badge\">".esc_html($cat)."</span>";
+        echo "<h3 class=\"listing-title\"><a href=\"".esc_url(get_permalink())."\">".esc_html(get_the_title())."</a></h3>";
+        if ( $avg ) {
+            echo "<div class=\"star-rating\">";
+            for ( $i = 1; $i <= 5; $i++ ) echo "<span class=\"star ".($i<=round($avg)?"filled":"")."\">&#9733;</span>";
+            echo "<span class=\"rating-count\">(".esc_html($count).")</span></div>";
+        }
+        echo "<p class=\"listing-excerpt\">".esc_html(wp_trim_words(get_the_excerpt(),20))."</p>";
+        echo "<a href=\"".esc_url(get_permalink())."\" class=\"nekoko-btn\">Pogledaj uslugu</a>";
+        echo "</div></div>";
+    }
+    wp_reset_postdata();
+    echo "</div>";
+    return ob_get_clean();
 }
 
 // US 4.2 - Homepage Shortcode
