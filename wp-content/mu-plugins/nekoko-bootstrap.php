@@ -66,16 +66,28 @@ add_action( "init", "nekoko_bootstrap_run", 1 );
 function nekoko_configure_smtp() {
     if ( get_option( "nekoko_smtp_configured" ) ) return;
 
+    // WP Mail SMTP v3+ nested format
     $smtp_options = [
-        "mail_from"      => "support@nekoko.rs",
-        "mail_from_name" => "NekoKo",
-        "mailer"         => "other_smtp",
-        "smtp_host"      => "smtp.hostinger.com",   // TODO: confirm with Marko before deploy
-        "smtp_port"      => 465,
-        "smtp_encryption"=> "ssl",
-        "smtp_auth"      => true,
-        "smtp_user"      => "support@nekoko.rs",    // TODO: Marko to fill in before deploy
-        "smtp_pass"      => "",                     // TODO: Marko to fill in password before deploy
+        "mail" => [
+            "from_email"       => "support@nekoko.rs",
+            "from_name"        => "NekoKo",
+            "mailer"           => "smtp",
+            "return_path"      => false,
+            "from_email_force" => true,
+            "from_name_force"  => true,
+        ],
+        "smtp" => [
+            "host"       => "smtp.hostinger.com",   // TODO: confirm with Marko before deploy
+            "port"       => 465,
+            "encryption" => "ssl",
+            "auth"       => true,
+            "user"       => "support@nekoko.rs",    // TODO: Marko to fill in before deploy
+            "pass"       => "",                     // TODO: Marko to fill in password before deploy
+            "autotls"    => false,
+        ],
+        "general" => [
+            "do_not_send" => true,
+        ],
     ];
     update_option( "wp_mail_smtp", $smtp_options );
     update_option( "nekoko_smtp_configured", time() );

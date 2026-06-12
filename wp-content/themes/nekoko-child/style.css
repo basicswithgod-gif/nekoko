@@ -89,16 +89,17 @@ a:hover { color: var(--nekoko-yellow); }
 #nekoko-safety-modal .modal-checkbox { display: flex; align-items: flex-start; gap: 10px; background: #fff8e1; border: 1px solid var(--nekoko-yellow); border-radius: 8px; padding: 16px; margin-bottom: 24px; cursor: pointer; }
 #nekoko-safety-modal .modal-checkbox input[type="checkbox"] { margin-top: 3px; flex-shrink: 0; width: 18px; height: 18px; accent-color: var(--nekoko-blue); }
 
-.site-footer { background: var(--nekoko-dark); color: #ccc; padding: 48px 20px 24px; }
-.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; max-width: 1200px; margin: 0 auto; }
-.footer-brand .logo-text { font-size: 1.5rem; font-weight: 800; color: #fff; margin-bottom: 12px; display: block; }
-.footer-brand .logo-text span { color: var(--nekoko-yellow); }
-.footer-links h4 { color: #fff; font-size: .9rem; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 16px; }
-.footer-links ul { list-style: none; padding: 0; margin: 0; }
-.footer-links li { margin-bottom: 8px; }
-.footer-links a { color: #aaa; font-size: .875rem; transition: color .2s; }
-.footer-links a:hover { color: var(--nekoko-yellow); }
-.footer-bottom { border-top: 1px solid rgba(255,255,255,.1); margin-top: 40px; padding-top: 20px; text-align: center; font-size: .8rem; color: #888; }
+.nekoko-footer { background: var(--nekoko-dark); color: #ccc; padding: 48px 20px 24px; }
+.nekoko-footer__inner { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; max-width: 1200px; margin: 0 auto; align-items: start; }
+.nekoko-footer__logo { font-size: 1.5rem; font-weight: 800; color: #fff; margin-bottom: 12px; display: block; }
+.nekoko-footer__logo span { color: var(--nekoko-yellow); }
+.nekoko-footer__brand p { color: #aaa; font-size: .875rem; margin: 8px 0 0; }
+.nekoko-footer__nav .nekoko-footer__links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.nekoko-footer__nav .nekoko-footer__links a { color: #aaa; font-size: .875rem; transition: color .2s; }
+.nekoko-footer__nav .nekoko-footer__links a:hover { color: var(--nekoko-yellow); }
+.nekoko-footer__meta { font-size: .8rem; color: #888; }
+.nekoko-footer__meta p { margin: 4px 0; }
+.nekoko-footer__disclaimer { font-style: italic; }
 
 .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: .75rem; font-weight: 600; }
 .badge-pending { background: #fff3cd; color: #856404; }
@@ -112,7 +113,7 @@ a:hover { color: var(--nekoko-yellow); }
     .nekoko-hero { padding: 60px 20px 70px; }
     .nekoko-hero h1 { font-size: 2rem; }
     .dashboard-grid { grid-template-columns: 1fr; }
-    .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+    .nekoko-footer__inner { grid-template-columns: 1fr; gap: 32px; }
 }
 @media (max-width: 480px) {
     .nekoko-hero h1 { font-size: 1.6rem; }
