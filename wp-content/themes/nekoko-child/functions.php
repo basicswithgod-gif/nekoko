@@ -172,6 +172,49 @@ function nekoko_send_welcome_email( $user_id ) {
 }
 
 
+// US 4.4 - Mandatory registration checkboxes
+add_action( "register_form", "nekoko_registration_checkboxes" );
+function nekoko_registration_checkboxes() {
+    $tos_url     = esc_url( home_url( "/uslovi-koriscenja/" ) );
+    $privacy_url = esc_url( home_url( "/politika-privatnosti/" ) );
+    echo '<div style="margin:16px 0;font-size:14px;line-height:1.6;">';
+    echo '<label style="display:flex;gap:10px;align-items:flex-start;margin-bottom:12px;">';
+    echo '<input type="checkbox" name="nekoko_accept_terms" value="1" style="margin-top:3px;flex-shrink:0;">';
+    echo '<span>Prihvatam <a href="' . $tos_url . '" target="_blank">Uslove korišćenja</a> i <a href="' . $privacy_url . '" target="_blank">Politiku privatnosti</a> platforme NekoKo.rs.</span>';
+    echo '</label>';
+    echo '<label style="display:flex;gap:10px;align-items:flex-start;">';
+    echo '<input type="checkbox" name="nekoko_accept_disclaimer" value="1" style="margin-top:3px;flex-shrink:0;">';
+    echo '<span>Razumem da NekoKo.rs ne proverava kvalifikacije provajdera, ne posreduje u sporovima i ne procesira plaćanja.</span>';
+    echo '</label>';
+    echo '</div>';
+    wp_nonce_field( "nekoko_registration", "nekoko_reg_nonce" );
+}
+
+add_filter( "registration_errors", "nekoko_validate_registration_checkboxes", 10, 3 );
+function nekoko_validate_registration_checkboxes( $errors, $sanitized_user_login, $user_email ) {
+    if ( empty( $_POST["nekoko_reg_nonce"] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST["nekoko_reg_nonce"] ) ), "nekoko_registration" ) ) {
+        $errors->add( "checkbox_error", __( "Greška pri verifikaciji forme. Pokušaj ponovo.", "nekoko-child" ) );
+        return $errors;
+    }
+    if ( empty( $_POST["nekoko_accept_terms"] ) ) {
+        $errors->add( "terms_error", __( "Morate prihvatiti Uslove korišćenja i Politiku privatnosti.", "nekoko-child" ) );
+    }
+    if ( empty( $_POST["nekoko_accept_disclaimer"] ) ) {
+        $errors->add( "disclaimer_error", __( "Morate potvrditi da razumete uslove korišćenja platforme.", "nekoko-child" ) );
+    }
+    return $errors;
+}
+
+add_action( "user_register", "nekoko_save_registration_consent" );
+function nekoko_save_registration_consent( $user_id ) {
+    if ( ! empty( $_POST["nekoko_accept_terms"] ) ) {
+        update_user_meta( $user_id, "_nekoko_accepted_terms", current_time( "mysql" ) );
+    }
+    if ( ! empty( $_POST["nekoko_accept_disclaimer"] ) ) {
+        update_user_meta( $user_id, "_nekoko_accepted_disclaimer", current_time( "mysql" ) );
+    }
+}
+
 // US 4.4 - Safety Warning Popup (every 90 days)
 add_action( "wp_footer", "nekoko_safety_popup" );
 function nekoko_safety_popup() {
