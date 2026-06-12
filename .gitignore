@@ -1,0 +1,68 @@
+# WordPress core (never commit)
+/wp-admin/
+/wp-includes/
+/wp-content/uploads/
+/wp-content/upgrade/
+/wp-content/backup-db/
+/wp-content/cache/
+/wp-content/advanced-cache.php
+/wp-content/wp-cache-config.php
+
+# WordPress config (sensitive)
+wp-config.php
+wp-config-sample.php
+
+# Credentials and environment
+.env
+*.env
+subscribers.json
+subscribe.php
+
+# WordPress files
+/index.php
+/license.txt
+/readme.html
+/wp-activate.php
+/wp-blog-header.php
+/wp-comments-post.php
+/wp-cron.php
+/wp-links-opml.php
+/wp-load.php
+/wp-login.php
+/wp-mail.php
+/wp-settings.php
+/wp-signup.php
+/wp-trackback.php
+/xmlrpc.php
+/wp-blog-header.php
+/.htaccess
+/local-xdebuginfo.php
+
+# Third-party plugins (not custom)
+/wp-content/plugins/astra/
+/wp-content/plugins/wordfence/
+/wp-content/plugins/wp-mail-smtp/
+/wp-content/plugins/user-role-editor/
+/wp-content/plugins/advanced-custom-fields/
+/wp-content/plugins/wpforms-lite/
+/wp-content/plugins/wordpress-seo/
+/wp-content/plugins/wp-super-cache/
+
+# Third-party themes (not custom)
+/wp-content/themes/astra/
+/wp-content/themes/twentytwentythree/
+/wp-content/themes/twentytwentyfour/
+/wp-content/themes/twentytwentyfive/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/
+*.swp
+*.swo
+node_modules/
+
+# WP-CLI
+wp-cli.local.yml
