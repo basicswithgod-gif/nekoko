@@ -377,6 +377,11 @@ function nekoko_homepage_sc() {
     if ( ! is_user_logged_in() ) echo " <a href=\"".esc_url(wp_registration_url())."\" class=\"nekoko-btn-outline\" style=\"color:#fff!important;border-color:#fff;\">Postani provajder</a>";
     echo "</div></div></section><section class=\"nekoko-categories\"><div style=\"max-width:1200px;margin:0 auto;padding:0 20px;\"><h2>Kategorije usluga</h2>";
     if ( !is_wp_error($cats) && $cats ) { echo "<div class=\"categories-grid\">"; foreach ($cats as $cat) echo "<a href=\"".esc_url(get_term_link($cat))."\" class=\"category-card\"><span class=\"icon\">".esc_html($cat->name)."</span><h3>".esc_html($cat->name)."</h3></a>"; echo "</div>"; }
-    echo "</div></section><section class=\"nekoko-how-it-works\"><div style=\"max-width:1200px;margin:0 auto;padding:0 20px;\"><h2>Kako funkcionise?</h2><div class=\"steps-grid\"><div class=\"step-card\"><div class=\"step-number\">1</div><h3>Pronadji uslugu</h3><p>Pretrazi nisne usluge po kategoriji.</p></div><div class=\"step-card\"><div class=\"step-number\">2</div><h3>Kontaktiraj provajdera</h3><p>Posalji zahtev za rezervaciju direktno provajderu.</p></div><div class=\"step-card\"><div class=\"step-number\">3</div><h3>Dogovorite se direktno</h3><p>Cenu i detalje dogovarate direktno, bez provizije.</p></div></div></div></section>";
+    echo "</div></section>";
+    echo "<section class=\"nekoko-listings-section\" style=\"padding:80px 20px;background:#fff;\"><div style=\"max-width:1200px;margin:0 auto;\"><h2 style=\"text-align:center;font-size:2rem;margin-bottom:48px;\">Istaknute usluge</h2>";
+    echo nekoko_listings_sc( [ "limit" => 6 ] );
+    echo "<div style=\"text-align:center;margin-top:40px;\"><a href=\"".esc_url(home_url("/listing/"))."\" class=\"nekoko-btn\">Pogledaj sve usluge</a></div>";
+    echo "</div></section>";
+    echo "<section class=\"nekoko-how-it-works\"><div style=\"max-width:1200px;margin:0 auto;padding:0 20px;\"><h2>Kako funkcionise?</h2><div class=\"steps-grid\"><div class=\"step-card\"><div class=\"step-number\">1</div><h3>Pronadji uslugu</h3><p>Pretrazi nisne usluge po kategoriji.</p></div><div class=\"step-card\"><div class=\"step-number\">2</div><h3>Kontaktiraj provajdera</h3><p>Posalji zahtev za rezervaciju direktno provajderu.</p></div><div class=\"step-card\"><div class=\"step-number\">3</div><h3>Dogovorite se direktno</h3><p>Cenu i detalje dogovarate direktno, bez provizije.</p></div></div></div></section>";
     return ob_get_clean();
 }
