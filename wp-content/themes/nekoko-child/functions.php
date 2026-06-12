@@ -414,12 +414,12 @@ function nekoko_listings_sc( $atts ) {
 add_shortcode( "nekoko_homepage", "nekoko_homepage_sc" );
 function nekoko_homepage_sc() {
     $cats  = get_terms( [ "taxonomy" => "service_category", "hide_empty" => false ] );
-    $icons = [ "Umetnost" => "A", "Lepota" => "B", "Zdravlje" => "Z", "Zivotinje" => "P", "Zabava" => "E", "Ostalo" => "S" ];
+    $icons = [ "Umetnost" => "🎨", "Lepota" => "💄", "Zdravlje" => "💪", "Životinje" => "🐾", "Zivotinje" => "🐾", "Zabava" => "🎉", "Ostalo" => "⚙️" ];
     ob_start();
     echo "<section class=\"nekoko-hero\"><div style=\"max-width:800px;margin:0 auto;\"><h1>Pronadji unikatne usluge u Srbiji</h1><p>NekoKo spaja ljude koji nude nisne talente i usluge sa onima koji ih traze. Sve na jednom mestu.</p><div class=\"hero-cta\"><a href=\"".esc_url(home_url("/listing/"))."\" class=\"nekoko-btn-accent\">Istrazuji usluge</a>";
     if ( ! is_user_logged_in() ) echo " <a href=\"".esc_url(wp_registration_url())."\" class=\"nekoko-btn-outline\" style=\"color:#fff!important;border-color:#fff;\">Postani provajder</a>";
     echo "</div></div></section><section class=\"nekoko-categories\"><div style=\"max-width:1200px;margin:0 auto;padding:0 20px;\"><h2>Kategorije usluga</h2>";
-    if ( !is_wp_error($cats) && $cats ) { echo "<div class=\"categories-grid\">"; foreach ($cats as $cat) echo "<a href=\"".esc_url(get_term_link($cat))."\" class=\"category-card\"><span class=\"icon\">".esc_html($cat->name)."</span><h3>".esc_html($cat->name)."</h3></a>"; echo "</div>"; }
+    if ( !is_wp_error($cats) && $cats ) { echo "<div class=\"categories-grid\">"; foreach ($cats as $cat) { $icon = $icons[ $cat->name ] ?? "🔧"; echo "<a href=\"".esc_url(get_term_link($cat))."\" class=\"category-card\"><span class=\"icon\">".esc_html($icon)."</span><h3>".esc_html($cat->name)."</h3></a>"; } echo "</div>"; }
     echo "</div></section>";
     echo "<section class=\"nekoko-listings-section\" style=\"padding:80px 20px;background:#fff;\"><div style=\"max-width:1200px;margin:0 auto;\"><h2 style=\"text-align:center;font-size:2rem;margin-bottom:48px;\">Istaknute usluge</h2>";
     echo nekoko_listings_sc( [ "limit" => 6 ] );
