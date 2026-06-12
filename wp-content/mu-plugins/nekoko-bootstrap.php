@@ -77,16 +77,16 @@ function nekoko_configure_smtp() {
             "from_name_force"  => true,
         ],
         "smtp" => [
-            "host"       => "smtp.hostinger.com",   // TODO: confirm with Marko before deploy
+            "host"       => "smtp.hostinger.com",
             "port"       => 465,
             "encryption" => "ssl",
             "auth"       => true,
-            "user"       => "support@nekoko.rs",    // TODO: Marko to fill in before deploy
-            "pass"       => "",                     // TODO: Marko to fill in password before deploy
+            "user"       => "support@nekoko.rs",
+            "pass"       => "",  // FILL IN: Hostinger email password before deploy
             "autotls"    => false,
         ],
         "general" => [
-            "do_not_send" => true,
+            "do_not_send" => false,  // true on local, false on production
         ],
     ];
     update_option( "wp_mail_smtp", $smtp_options );
