@@ -619,7 +619,7 @@ function nekoko_provider_registration_sc() {
             $pass   = wp_unslash( $_POST['nekoko_password']  ?? '' );
             $pass2  = wp_unslash( $_POST['nekoko_password2'] ?? '' );
             $desc   = sanitize_textarea_field( wp_unslash( $_POST['nekoko_description'] ?? '' ) );
-            $vals   = compact( 'first_name', 'last_name', 'email', 'description' ) + [ 'first_name' => $first, 'last_name' => $last, 'email' => $email, 'description' => $desc ];
+            $vals   = [ 'first_name' => $first, 'last_name' => $last, 'email' => $email, 'description' => $desc ];
             if ( ! $first )                   $errors[] = 'Ime je obavezno.';
             if ( ! $last )                    $errors[] = 'Prezime je obavezno.';
             if ( ! is_email( $email ) )       $errors[] = 'Unesite ispravnu email adresu.';
