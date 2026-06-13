@@ -6,9 +6,12 @@
         <?php if ( has_post_thumbnail() ) : ?>
         <img src="<?php the_post_thumbnail_url("large"); ?>" alt="<?php the_title_attribute(); ?>" style="width:100%;border-radius:12px;margin-bottom:24px;object-fit:cover;max-height:400px;">
         <?php endif; ?>
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
             <?php $cats = get_the_terms(get_the_ID(),"service_category"); if($cats&&!is_wp_error($cats)): ?>
             <span class="badge badge-approved"><?php echo esc_html($cats[0]->name); ?></span>
+            <?php endif; ?>
+            <?php $sl_grad = get_post_meta(get_the_ID(),"_nekoko_grad",true); if($sl_grad): ?>
+            <span style="font-size:.85rem;color:#666;">📍 <?php echo esc_html($sl_grad); ?></span>
             <?php endif; ?>
             <?php $avg = get_post_meta(get_the_ID(),"_nekoko_avg_rating",true); $cnt = get_post_meta(get_the_ID(),"_nekoko_review_count",true); if($avg): ?>
             <span class="star-rating"><?php for($i=1;$i<=5;$i++) echo "<span class=\"star ".($i<=round($avg)?"filled":"")."\">&#9733;</span>"; ?></span>
@@ -16,6 +19,9 @@
             <?php endif; ?>
         </div>
         <h1><?php the_title(); ?></h1>
+        <?php $sl_price = (int) get_post_meta(get_the_ID(),"_nekoko_price",true); if($sl_price): ?>
+        <div style="font-size:1.5rem;font-weight:800;color:var(--nekoko-blue);margin-bottom:16px;"><?php echo number_format($sl_price,0,'.','.'); ?> <span style="font-size:1rem;font-weight:400;">RSD</span></div>
+        <?php endif; ?>
         <div class="listing-description"><?php the_content(); ?></div>
         <hr style="margin:32px 0;">
         <?php echo do_shortcode("[nekoko_reviews listing_id=".get_the_ID()."]"); ?>

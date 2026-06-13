@@ -410,6 +410,143 @@ function nekoko_listings_sc( $atts ) {
     return ob_get_clean();
 }
 
+// US 4.3 - Search & Filter Shortcode [nekoko_search_filter]
+add_shortcode( 'nekoko_search_filter', 'nekoko_search_filter_sc' );
+function nekoko_search_filter_sc() {
+    $kw        = sanitize_text_field( wp_unslash( $_GET['kw']        ?? '' ) );
+    $kat       = sanitize_text_field( wp_unslash( $_GET['kat']       ?? '' ) );
+    $grad      = sanitize_text_field( wp_unslash( $_GET['grad']      ?? '' ) );
+    $cena_min  = isset( $_GET['cena_min'] ) && $_GET['cena_min'] !== '' ? intval( $_GET['cena_min'] ) : '';
+    $cena_max  = isset( $_GET['cena_max'] ) && $_GET['cena_max'] !== '' ? intval( $_GET['cena_max'] ) : '';
+    $min_ocena = intval( $_GET['min_ocena'] ?? 0 );
+    $sortiraj  = sanitize_key( $_GET['sortiraj'] ?? 'newest' );
+
+    $args = [ 'post_type' => 'service_listing', 'post_status' => 'publish', 'posts_per_page' => 12 ];
+    if ( $kw ) { $args['s'] = $kw; }
+    if ( $kat ) { $args['tax_query'] = [[ 'taxonomy' => 'service_category', 'field' => 'slug', 'terms' => $kat ]]; }
+
+    $mq = [];
+    if ( $grad )    { $mq[] = [ 'key' => '_nekoko_grad',       'value' => $grad ]; }
+    if ( $cena_min !== '' ) { $mq[] = [ 'key' => '_nekoko_price', 'value' => $cena_min, 'type' => 'NUMERIC', 'compare' => '>=' ]; }
+    if ( $cena_max !== '' ) { $mq[] = [ 'key' => '_nekoko_price', 'value' => $cena_max, 'type' => 'NUMERIC', 'compare' => '<=' ]; }
+    if ( $min_ocena > 0 )  { $mq[] = [ 'key' => '_nekoko_avg_rating', 'value' => $min_ocena, 'type' => 'DECIMAL(3,1)', 'compare' => '>=' ]; }
+    if ( $mq ) { $args['meta_query'] = array_merge( [ 'relation' => 'AND' ], $mq ); }
+
+    switch ( $sortiraj ) {
+        case 'cena_asc':  $args['meta_key'] = '_nekoko_price'; $args['orderby'] = 'meta_value_num'; $args['order'] = 'ASC'; break;
+        case 'cena_desc': $args['meta_key'] = '_nekoko_price'; $args['orderby'] = 'meta_value_num'; $args['order'] = 'DESC'; break;
+        case 'ocena':     $args['meta_key'] = '_nekoko_avg_rating'; $args['orderby'] = 'meta_value_num'; $args['order'] = 'DESC'; break;
+        default:          $args['orderby'] = 'date'; $args['order'] = 'DESC';
+    }
+
+    $query   = new WP_Query( $args );
+    $cats    = get_terms( [ 'taxonomy' => 'service_category', 'hide_empty' => false ] );
+    $gradovi = [ 'Beograd', 'Novi Sad', 'Niš', 'Kragujevac', 'Online' ];
+    $page_url = esc_url( get_permalink() );
+
+    ob_start(); ?>
+    <div class="nekoko-search-wrap" style="max-width:1200px;margin:0 auto;padding:0 20px;">
+    <form method="get" action="<?php echo $page_url; ?>" style="background:#fff;border-radius:12px;padding:24px;box-shadow:var(--nekoko-shadow);margin-bottom:32px;">
+        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr auto;gap:12px;align-items:end;flex-wrap:wrap;">
+            <div><label style="font-size:.8rem;font-weight:600;color:#666;display:block;margin-bottom:4px;">Pretraži</label>
+                <input type="text" name="kw" value="<?php echo esc_attr($kw); ?>" placeholder="Npr. masaža, fotograf..." style="width:100%;padding:10px 14px;border:2px solid var(--nekoko-light);border-radius:8px;font-size:.9rem;box-sizing:border-box;font-family:var(--nekoko-font);">
+            </div>
+            <div><label style="font-size:.8rem;font-weight:600;color:#666;display:block;margin-bottom:4px;">Kategorija</label>
+                <select name="kat" style="width:100%;padding:10px 14px;border:2px solid var(--nekoko-light);border-radius:8px;font-size:.9rem;box-sizing:border-box;font-family:var(--nekoko-font);">
+                    <option value="">Sve kategorije</option>
+                    <?php foreach ( $cats as $c ) : ?>
+                    <option value="<?php echo esc_attr($c->slug); ?>" <?php selected($kat,$c->slug); ?>><?php echo esc_html($c->name); ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div><label style="font-size:.8rem;font-weight:600;color:#666;display:block;margin-bottom:4px;">Grad</label>
+                <select name="grad" style="width:100%;padding:10px 14px;border:2px solid var(--nekoko-light);border-radius:8px;font-size:.9rem;box-sizing:border-box;font-family:var(--nekoko-font);">
+                    <option value="">Svi gradovi</option>
+                    <?php foreach ( $gradovi as $g ) : ?>
+                    <option value="<?php echo esc_attr($g); ?>" <?php selected($grad,$g); ?>><?php echo esc_html($g); ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div><label style="font-size:.8rem;font-weight:600;color:#666;display:block;margin-bottom:4px;">Cena (RSD)</label>
+                <div style="display:flex;gap:6px;">
+                    <input type="number" name="cena_min" value="<?php echo esc_attr($cena_min); ?>" placeholder="Od" min="0" style="width:50%;padding:10px 8px;border:2px solid var(--nekoko-light);border-radius:8px;font-size:.85rem;box-sizing:border-box;">
+                    <input type="number" name="cena_max" value="<?php echo esc_attr($cena_max); ?>" placeholder="Do" min="0" style="width:50%;padding:10px 8px;border:2px solid var(--nekoko-light);border-radius:8px;font-size:.85rem;box-sizing:border-box;">
+                </div>
+            </div>
+            <div><label style="font-size:.8rem;font-weight:600;color:#666;display:block;margin-bottom:4px;">Min. ocena</label>
+                <select name="min_ocena" style="width:100%;padding:10px 14px;border:2px solid var(--nekoko-light);border-radius:8px;font-size:.9rem;box-sizing:border-box;font-family:var(--nekoko-font);">
+                    <option value="0">Sve ocene</option>
+                    <?php for ( $i = 1; $i <= 5; $i++ ) : ?>
+                    <option value="<?php echo $i; ?>" <?php selected($min_ocena,$i); ?>><?php echo str_repeat('★',$i); ?></option>
+                    <?php endfor; ?>
+                </select>
+            </div>
+            <div><button type="submit" class="nekoko-btn" style="white-space:nowrap;padding:10px 20px;">Pretraži</button></div>
+        </div>
+        <div style="margin-top:12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+            <span style="font-size:.8rem;color:#666;">Sortiraj:</span>
+            <?php $sorts = [ 'newest' => 'Najnovije', 'cena_asc' => 'Cena ↑', 'cena_desc' => 'Cena ↓', 'ocena' => 'Ocena ↓' ];
+            foreach ( $sorts as $val => $lbl ) :
+                $active = $sortiraj === $val;
+                $url = add_query_arg( array_filter( ['kw'=>$kw,'kat'=>$kat,'grad'=>$grad,'cena_min'=>$cena_min,'cena_max'=>$cena_max,'min_ocena'=>$min_ocena?$min_ocena:null,'sortiraj'=>$val] ), $page_url ); ?>
+            <a href="<?php echo esc_url($url); ?>" style="font-size:.85rem;padding:4px 12px;border-radius:20px;border:1px solid <?php echo $active?'var(--nekoko-blue)':'var(--nekoko-light)'; ?>;background:<?php echo $active?'var(--nekoko-blue)':'transparent'; ?>;color:<?php echo $active?'#fff':'var(--nekoko-dark)'; ?>;text-decoration:none;"><?php echo esc_html($lbl); ?></a>
+            <?php endforeach; ?>
+            <?php if ( $kw || $kat || $grad || $cena_min !== '' || $cena_max !== '' || $min_ocena ) : ?>
+            <a href="<?php echo $page_url; ?>" style="font-size:.85rem;color:var(--nekoko-red);margin-left:auto;">× Resetuj filtere</a>
+            <?php endif; ?>
+        </div>
+    </form>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <p style="margin:0;color:#666;font-size:.9rem;">Pronađeno: <strong><?php echo $query->found_posts; ?></strong> usluga<?php if($kw) echo ' za "<em>'.esc_html($kw).'</em>"'; ?></p>
+    </div>
+
+    <?php if ( $query->have_posts() ) : ?>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;">
+        <?php while ( $query->have_posts() ) : $query->the_post();
+            $c_cats  = get_the_terms( get_the_ID(), 'service_category' );
+            $c_cat   = $c_cats && !is_wp_error($c_cats) ? esc_html($c_cats[0]->name) : '';
+            $c_avg   = (float) get_post_meta( get_the_ID(), '_nekoko_avg_rating', true );
+            $c_cnt   = (int)   get_post_meta( get_the_ID(), '_nekoko_review_count', true );
+            $c_price = (int)   get_post_meta( get_the_ID(), '_nekoko_price', true );
+            $c_grad  = get_post_meta( get_the_ID(), '_nekoko_grad', true );
+        ?>
+        <article class="listing-card">
+            <?php if ( has_post_thumbnail() ) : ?>
+            <a href="<?php the_permalink(); ?>"><img class="card-image" src="<?php the_post_thumbnail_url('medium'); ?>" alt="<?php the_title_attribute(); ?>"></a>
+            <?php else : ?>
+            <a href="<?php the_permalink(); ?>"><div class="card-image" style="background:var(--nekoko-light);display:flex;align-items:center;justify-content:center;font-size:3rem;">🏷️</div></a>
+            <?php endif; ?>
+            <div class="card-body">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                    <?php if($c_cat) : ?><div class="card-category"><?php echo $c_cat; ?></div><?php endif; ?>
+                    <?php if($c_grad) : ?><span style="font-size:.75rem;color:#666;">📍 <?php echo esc_html($c_grad); ?></span><?php endif; ?>
+                </div>
+                <h3><a href="<?php the_permalink(); ?>" style="color:var(--nekoko-dark);"><?php the_title(); ?></a></h3>
+                <?php if($c_avg) : ?>
+                <div class="star-rating" style="margin-bottom:8px;">
+                    <?php for($i=1;$i<=5;$i++) echo '<span class="star '.($i<=round($c_avg)?'filled':'').'">&#9733;</span>'; ?>
+                    <span style="color:#666;font-size:.8rem;">(<?php echo $c_cnt; ?>)</span>
+                </div>
+                <?php endif; ?>
+                <?php if($c_price) : ?>
+                <div style="font-size:1rem;font-weight:700;color:var(--nekoko-blue);margin-bottom:12px;"><?php echo number_format($c_price,0,'.','.'); ?> RSD</div>
+                <?php endif; ?>
+                <a href="<?php the_permalink(); ?>" class="nekoko-btn" style="font-size:.85rem;padding:8px 18px;">Pogledaj</a>
+            </div>
+        </article>
+        <?php endwhile; wp_reset_postdata(); ?>
+    </div>
+    <?php else : ?>
+    <div style="text-align:center;padding:80px 0;background:#fff;border-radius:12px;">
+        <p style="font-size:1.2rem;color:#666;margin-bottom:20px;">Nema rezultata za ove filtere.</p>
+        <a href="<?php echo $page_url; ?>" class="nekoko-btn">Resetuj pretragu</a>
+    </div>
+    <?php endif; ?>
+    </div>
+    <?php return ob_get_clean();
+}
+
 // US 4.2 - Homepage Shortcode
 add_shortcode( "nekoko_homepage", "nekoko_homepage_sc" );
 function nekoko_homepage_sc() {
