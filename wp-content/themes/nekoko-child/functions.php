@@ -330,12 +330,13 @@ function nekoko_pending_providers_page() {
         }
     }
     $users = get_users( [ "role" => "provider", "meta_query" => [ [ "key" => "_nekoko_provider_status", "value" => "approved", "compare" => "!=" ] ] ] );
-    echo "<div class=\"wrap\"><h1>Provajderi pending</h1><table class=\"widefat striped\"><thead><tr><th>Ime</th><th>Email</th><th>Registrovan</th><th>Status</th><th>Akcije</th></tr></thead><tbody>";
+    echo "<div class=\"wrap\"><h1>Provajderi pending</h1><table class=\"widefat striped\"><thead><tr><th>Ime</th><th>Email</th><th>Opis usluga</th><th>Registrovan</th><th>Status</th><th>Akcije</th></tr></thead><tbody>";
     foreach ( $users as $u ) {
-        $st  = get_user_meta( $u->ID, "_nekoko_provider_status", true ) ?: "pending";
-        $app = wp_nonce_url( admin_url( "admin.php?page=nekoko-pending-providers&action=approve-provider&user_id=" . $u->ID ), "nekoko_provider_action" );
-        $rej = wp_nonce_url( admin_url( "admin.php?page=nekoko-pending-providers&action=reject-provider&user_id=" . $u->ID ), "nekoko_provider_action" );
-        echo "<tr><td>".esc_html($u->display_name)."</td><td>".esc_html($u->user_email)."</td><td>".esc_html(date_i18n("d.m.Y",strtotime($u->user_registered)))."</td><td>".esc_html($st)."</td><td><a href=\"".esc_url($app)."\" class=\"button button-primary\" style=\"margin-right:8px;\">Odobri</a> <a href=\"".esc_url($rej)."\" class=\"button\">Odbij</a></td></tr>";
+        $st   = get_user_meta( $u->ID, "_nekoko_provider_status", true ) ?: "pending";
+        $desc = get_user_meta( $u->ID, "_nekoko_service_description", true ) ?: "-";
+        $app  = wp_nonce_url( admin_url( "admin.php?page=nekoko-pending-providers&action=approve-provider&user_id=" . $u->ID ), "nekoko_provider_action" );
+        $rej  = wp_nonce_url( admin_url( "admin.php?page=nekoko-pending-providers&action=reject-provider&user_id=" . $u->ID ), "nekoko_provider_action" );
+        echo "<tr><td>".esc_html($u->display_name)."</td><td>".esc_html($u->user_email)."</td><td style=\"max-width:220px;\">".esc_html(mb_substr($desc,0,100)).(mb_strlen($desc)>100?"…":"")."</td><td>".esc_html(date_i18n("d.m.Y",strtotime($u->user_registered)))."</td><td>".esc_html($st)."</td><td><a href=\"".esc_url($app)."\" class=\"button button-primary\" style=\"margin-right:8px;\">Odobri</a> <a href=\"".esc_url($rej)."\" class=\"button\">Odbij</a></td></tr>";
     }
     echo "</tbody></table></div>";
 }
@@ -547,6 +548,104 @@ function nekoko_search_filter_sc() {
     <?php return ob_get_clean();
 }
 
+// US 4.3 - Provider Registration Shortcode [nekoko_provider_registration]
+add_shortcode( 'nekoko_provider_registration', 'nekoko_provider_registration_sc' );
+function nekoko_provider_registration_sc() {
+    if ( is_user_logged_in() ) {
+        $user = wp_get_current_user();
+        if ( in_array( 'provider', (array) $user->roles, true ) ) {
+            return '<div style="background:#d1e7dd;padding:24px;border-radius:8px;"><p style="margin:0;">Već ste prijavljeni kao pružalac usluga. <a href="' . esc_url( home_url( '/provider-dashboard/' ) ) . '">Idite na dashboard</a>.</p></div>';
+        }
+        return '<div style="background:#fff3cd;padding:24px;border-radius:8px;"><p style="margin:0;">Već ste prijavljeni. <a href="' . esc_url( wp_logout_url( get_permalink() ) ) . '">Odjavite se</a> da biste kreirali provajder nalog.</p></div>';
+    }
+    $errors  = [];
+    $success = false;
+    $vals    = [ 'first_name' => '', 'last_name' => '', 'email' => '', 'description' => '' ];
+    if ( isset( $_POST['nekoko_provider_submit'] ) ) {
+        if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'nekoko_provider_reg' ) ) {
+            $errors[] = 'Greška pri verifikaciji forme. Pokušaj ponovo.';
+        } else {
+            $first  = sanitize_text_field( wp_unslash( $_POST['nekoko_first_name']  ?? '' ) );
+            $last   = sanitize_text_field( wp_unslash( $_POST['nekoko_last_name']   ?? '' ) );
+            $email  = sanitize_email( wp_unslash( $_POST['nekoko_email']            ?? '' ) );
+            $pass   = wp_unslash( $_POST['nekoko_password']  ?? '' );
+            $pass2  = wp_unslash( $_POST['nekoko_password2'] ?? '' );
+            $desc   = sanitize_textarea_field( wp_unslash( $_POST['nekoko_description'] ?? '' ) );
+            $vals   = compact( 'first_name', 'last_name', 'email', 'description' ) + [ 'first_name' => $first, 'last_name' => $last, 'email' => $email, 'description' => $desc ];
+            if ( ! $first )                   $errors[] = 'Ime je obavezno.';
+            if ( ! $last )                    $errors[] = 'Prezime je obavezno.';
+            if ( ! is_email( $email ) )       $errors[] = 'Unesite ispravnu email adresu.';
+            elseif ( email_exists( $email ) ) $errors[] = 'Nalog sa ovom email adresom već postoji.';
+            if ( strlen( $pass ) < 8 )        $errors[] = 'Lozinka mora imati najmanje 8 karaktera.';
+            if ( $pass !== $pass2 )           $errors[] = 'Lozinke se ne poklapaju.';
+            if ( ! $desc )                    $errors[] = 'Opis usluga je obavezan.';
+            if ( empty( $_POST['nekoko_accept_terms'] ) )      $errors[] = 'Morate prihvatiti Uslove korišćenja i Politiku privatnosti.';
+            if ( empty( $_POST['nekoko_accept_disclaimer'] ) ) $errors[] = 'Morate potvrditi da razumete uslove korišćenja platforme.';
+            if ( empty( $errors ) ) {
+                $base_uname = sanitize_user( strtolower( $first . '.' . $last ), true );
+                $uname = $base_uname;
+                for ( $i = 1; username_exists( $uname ); $i++ ) { $uname = $base_uname . $i; }
+                $uid = wp_create_user( $uname, $pass, $email );
+                if ( is_wp_error( $uid ) ) {
+                    $errors[] = $uid->get_error_message();
+                } else {
+                    $u = new WP_User( $uid );
+                    $u->set_role( 'provider' );
+                    wp_update_user( [ 'ID' => $uid, 'display_name' => $first . ' ' . $last ] );
+                    update_user_meta( $uid, 'first_name', $first );
+                    update_user_meta( $uid, 'last_name', $last );
+                    update_user_meta( $uid, '_nekoko_provider_status', 'pending' );
+                    update_user_meta( $uid, '_nekoko_service_description', $desc );
+                    update_user_meta( $uid, '_nekoko_accepted_terms', current_time( 'mysql' ) );
+                    update_user_meta( $uid, '_nekoko_accepted_disclaimer', current_time( 'mysql' ) );
+                    $success = true;
+                }
+            }
+        }
+    }
+    if ( $success ) {
+        return '<div style="background:#d1e7dd;padding:32px;border-radius:12px;text-align:center;max-width:600px;margin:0 auto;"><h2 style="color:#0f5132;margin-top:0;">Zahtev primljen!</h2><p>Vaš zahtev za registraciju kao pružalac usluga je primljen i čeka odobrenje administratora.</p><p>Bićete obavešteni čim Vaš profil bude odobren. Možete se prijaviti na NekoKo.rs i početi sa radom.</p></div>';
+    }
+    $tos_url     = esc_url( home_url( '/uslovi-koriscenja/' ) );
+    $privacy_url = esc_url( home_url( '/politika-privatnosti/' ) );
+    ob_start(); ?>
+    <div class="nekoko-form" style="max-width:600px;margin:0 auto;">
+    <?php if ( $errors ) : ?>
+    <div style="background:#f8d7da;padding:16px;border-radius:8px;margin-bottom:24px;"><ul style="margin:0;padding-left:20px;"><?php foreach($errors as $e) echo '<li>'.esc_html($e).'</li>'; ?></ul></div>
+    <?php endif; ?>
+    <form method="post">
+        <?php wp_nonce_field( 'nekoko_provider_reg' ); ?>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div class="form-group"><label>Ime *</label><input type="text" name="nekoko_first_name" value="<?php echo esc_attr($vals['first_name']); ?>" required placeholder="Vaše ime"></div>
+            <div class="form-group"><label>Prezime *</label><input type="text" name="nekoko_last_name" value="<?php echo esc_attr($vals['last_name']); ?>" required placeholder="Vaše prezime"></div>
+        </div>
+        <div class="form-group"><label>Email adresa *</label><input type="email" name="nekoko_email" value="<?php echo esc_attr($vals['email']); ?>" required placeholder="vas@email.com"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div class="form-group"><label>Lozinka * <span style="font-size:.8rem;color:#666;">(min. 8 karaktera)</span></label><input type="password" name="nekoko_password" required placeholder="••••••••" autocomplete="new-password"></div>
+            <div class="form-group"><label>Potvrda lozinke *</label><input type="password" name="nekoko_password2" required placeholder="••••••••" autocomplete="new-password"></div>
+        </div>
+        <div class="form-group">
+            <label>Opis usluga koje nudite *</label>
+            <textarea name="nekoko_description" rows="5" required placeholder="Opišite koje usluge nudite, vaše iskustvo i šta vas izdvaja..."><?php echo esc_textarea($vals['description']); ?></textarea>
+            <span style="font-size:.8rem;color:#666;">Vidljivo samo administratoru pre odobrenja profila.</span>
+        </div>
+        <div style="margin:20px 0;font-size:14px;line-height:1.6;">
+            <label style="display:flex;gap:10px;align-items:flex-start;margin-bottom:12px;cursor:pointer;">
+                <input type="checkbox" name="nekoko_accept_terms" value="1" style="margin-top:3px;flex-shrink:0;" <?php checked(!empty($_POST['nekoko_accept_terms']),'1'); ?>>
+                <span>Prihvatam <a href="<?php echo $tos_url; ?>" target="_blank">Uslove korišćenja</a> i <a href="<?php echo $privacy_url; ?>" target="_blank">Politiku privatnosti</a> platforme NekoKo.rs.</span>
+            </label>
+            <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;">
+                <input type="checkbox" name="nekoko_accept_disclaimer" value="1" style="margin-top:3px;flex-shrink:0;" <?php checked(!empty($_POST['nekoko_accept_disclaimer']),'1'); ?>>
+                <span>Razumem da NekoKo.rs ne proverava kvalifikacije provajdera, ne posreduje u sporovima i ne procesira plaćanja. Nudim usluge kao nezavisni izvođač.</span>
+            </label>
+        </div>
+        <button type="submit" name="nekoko_provider_submit" class="nekoko-btn" style="width:100%;padding:14px;">Pošalji zahtev za registraciju</button>
+    </form>
+    <p style="text-align:center;margin-top:16px;font-size:.9rem;color:#666;">Već imate nalog? <a href="<?php echo esc_url(wp_login_url()); ?>">Prijavite se</a></p>
+    </div>
+    <?php return ob_get_clean();
+}
+
 // US 4.2 - Homepage Shortcode
 add_shortcode( "nekoko_homepage", "nekoko_homepage_sc" );
 function nekoko_homepage_sc() {
@@ -554,7 +653,7 @@ function nekoko_homepage_sc() {
     $icons = [ "Umetnost" => "🎨", "Lepota" => "💄", "Zdravlje" => "💪", "Životinje" => "🐾", "Zivotinje" => "🐾", "Zabava" => "🎉", "Ostalo" => "⚙️" ];
     ob_start();
     echo "<section class=\"nekoko-hero\"><div style=\"max-width:800px;margin:0 auto;\"><h1>Pronadji unikatne usluge u Srbiji</h1><p>NekoKo spaja ljude koji nude nisne talente i usluge sa onima koji ih traze. Sve na jednom mestu.</p><div class=\"hero-cta\"><a href=\"".esc_url(home_url("/listing/"))."\" class=\"nekoko-btn-accent\">Istrazuji usluge</a>";
-    if ( ! is_user_logged_in() ) echo " <a href=\"".esc_url(wp_registration_url())."\" class=\"nekoko-btn-outline\" style=\"color:#fff!important;border-color:#fff;\">Postani provajder</a>";
+    if ( ! is_user_logged_in() ) echo " <a href=\"".esc_url(home_url('/postani-provajder/'))."\" class=\"nekoko-btn-outline\" style=\"color:#fff!important;border-color:#fff;\">Postani provajder</a>";
     echo "</div></div></section><section class=\"nekoko-categories\"><div style=\"max-width:1200px;margin:0 auto;padding:0 20px;\"><h2>Kategorije usluga</h2>";
     if ( !is_wp_error($cats) && $cats ) { echo "<div class=\"categories-grid\">"; foreach ($cats as $cat) { $icon = $icons[ $cat->name ] ?? "🔧"; echo "<a href=\"".esc_url(get_term_link($cat))."\" class=\"category-card\"><span class=\"icon\">".esc_html($icon)."</span><h3>".esc_html($cat->name)."</h3></a>"; } echo "</div>"; }
     echo "</div></section>";
