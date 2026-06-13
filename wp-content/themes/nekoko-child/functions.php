@@ -96,34 +96,82 @@ function nekoko_provider_dashboard_sc() {
     return ob_get_clean();
 }
 
-// US 4.3 - Booking Form Shortcode
+// US 4.3 - Booking Form Shortcode (2-step: fill → review → confirm)
 add_shortcode( "nekoko_booking_form", "nekoko_booking_form_sc" );
 function nekoko_booking_form_sc( $atts ) {
-    $atts = shortcode_atts( [ "listing_id" => 0 ], $atts );
-    $listing = get_post( intval( $atts["listing_id"] ) ?: get_the_ID() );
+    $atts     = shortcode_atts( [ "listing_id" => 0 ], $atts );
+    $listing  = get_post( intval( $atts["listing_id"] ) ?: get_the_ID() );
     if ( ! $listing || $listing->post_type !== "service_listing" ) return "";
+    $provider = get_user_by( "id", $listing->post_author );
     if ( isset( $_POST["nekoko_booking_submit"] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST["_wpnonce"] ) ), "nekoko_booking_" . $listing->ID ) ) {
-        $name = sanitize_text_field( wp_unslash( $_POST["nekoko_name"] ?? "" ) );
-        $email = sanitize_email( wp_unslash( $_POST["nekoko_email"] ?? "" ) );
+        $name    = sanitize_text_field( wp_unslash( $_POST["nekoko_name"]    ?? "" ) );
+        $email   = sanitize_email( wp_unslash( $_POST["nekoko_email"]        ?? "" ) );
         $message = sanitize_textarea_field( wp_unslash( $_POST["nekoko_message"] ?? "" ) );
-        $date = sanitize_text_field( wp_unslash( $_POST["nekoko_date"] ?? "" ) );
+        $date    = sanitize_text_field( wp_unslash( $_POST["nekoko_date"]    ?? "" ) );
         if ( $name && $email && $message ) {
             nekoko_send_booking_emails( $listing, $name, $email, $message, $date );
-            return "<div style=\"background:#d1e7dd;padding:20px;border-radius:8px;\"><p><strong>Zahtev je poslat!</strong> Pružalac će te kontaktirati u roku od 48 sati.</p></div>";
+            return '<div style="background:#d1e7dd;padding:24px;border-radius:8px;"><p><strong>Zahtev je poslat!</strong> Pružalac usluge će te kontaktirati u roku od 48 sati.</p><p style="font-size:.9rem;color:#0f5132;margin-bottom:0;">Kontaktiraj provajdera direktno. NekoKo ne posreduje u plaćanju niti u sporovima između korisnika.</p></div>';
         }
     }
+    $lid = esc_attr( $listing->ID );
     ob_start(); ?>
-    <div class="nekoko-form">
+    <div class="nekoko-form" id="nekoko-booking-wrap-<?php echo $lid; ?>">
     <h3>Pošalji zahtev za rezervaciju</h3>
-    <form method="post">
+
+    <div id="booking-step1-<?php echo $lid; ?>">
+    <form id="booking-form-<?php echo $lid; ?>" method="post">
         <?php wp_nonce_field( "nekoko_booking_" . $listing->ID ); ?>
-        <input type="hidden" name="nekoko_listing_id" value="<?php echo esc_attr( $listing->ID ); ?>">
-        <div class="form-group"><label>Ime i prezime *</label><input type="text" name="nekoko_name" required placeholder="Tvoje ime"></div>
-        <div class="form-group"><label>Email adresa *</label><input type="email" name="nekoko_email" required placeholder="tvoj@email.com"></div>
-        <div class="form-group"><label>Željeni datum</label><input type="date" name="nekoko_date"></div>
-        <div class="form-group"><label>Poruka *</label><textarea name="nekoko_message" rows="5" required placeholder="Opiši šta ti je potrebno..."></textarea></div>
-        <button type="submit" name="nekoko_booking_submit" class="nekoko-btn">Pošalji zahtev</button>
-    </form></div>
+        <input type="hidden" name="nekoko_listing_id" value="<?php echo $lid; ?>">
+        <div class="form-group"><label>Ime i prezime *</label><input type="text" id="bk-name-<?php echo $lid; ?>" name="nekoko_name" required placeholder="Tvoje ime"></div>
+        <div class="form-group"><label>Email adresa *</label><input type="email" id="bk-email-<?php echo $lid; ?>" name="nekoko_email" required placeholder="tvoj@email.com"></div>
+        <div class="form-group"><label>Željeni datum</label><input type="date" id="bk-date-<?php echo $lid; ?>" name="nekoko_date"></div>
+        <div class="form-group"><label>Poruka *</label><textarea id="bk-msg-<?php echo $lid; ?>" name="nekoko_message" rows="5" required placeholder="Opiši šta ti je potrebno..."></textarea></div>
+        <button type="button" onclick="nekokoBookingReview('<?php echo esc_js($listing->ID); ?>')" class="nekoko-btn" style="width:100%;">Pregled zahteva &#8594;</button>
+        <input type="submit" name="nekoko_booking_submit" id="bk-submit-<?php echo $lid; ?>" style="display:none;">
+    </form>
+    </div>
+
+    <div id="booking-step2-<?php echo $lid; ?>" style="display:none;">
+        <div style="background:#f5f7fa;border-radius:10px;padding:20px;margin-bottom:20px;">
+            <h4 style="margin-top:0;color:#004682;">Pregled zahteva</h4>
+            <table style="width:100%;border-collapse:collapse;font-size:.95rem;">
+                <tr><td style="padding:6px 0;color:#666;width:38%;">Usluga:</td><td style="padding:6px 0;"><strong><?php echo esc_html( $listing->post_title ); ?></strong></td></tr>
+                <tr><td style="padding:6px 0;color:#666;">Pružalac:</td><td style="padding:6px 0;"><?php echo esc_html( $provider ? $provider->display_name : '-' ); ?></td></tr>
+                <tr><td style="padding:6px 0;color:#666;">Vaše ime:</td><td style="padding:6px 0;" id="rv-name-<?php echo $lid; ?>"></td></tr>
+                <tr><td style="padding:6px 0;color:#666;">Email:</td><td style="padding:6px 0;" id="rv-email-<?php echo $lid; ?>"></td></tr>
+                <tr id="rv-date-row-<?php echo $lid; ?>"><td style="padding:6px 0;color:#666;">Željeni datum:</td><td style="padding:6px 0;" id="rv-date-<?php echo $lid; ?>"></td></tr>
+                <tr><td style="padding:6px 0;color:#666;vertical-align:top;">Poruka:</td><td style="padding:6px 0;font-style:italic;" id="rv-msg-<?php echo $lid; ?>"></td></tr>
+            </table>
+        </div>
+        <p style="font-size:.85rem;color:#555;background:#fff3cd;padding:12px;border-radius:8px;margin-bottom:16px;">&#9888; NekoKo ne posreduje u plaćanju niti u sporovima. Sve dogovore obavljate direktno sa pružaocem.</p>
+        <div style="display:flex;gap:12px;">
+            <button type="button" onclick="nekokoBookingBack('<?php echo esc_js($listing->ID); ?>')" class="nekoko-btn" style="background:#6c757d;flex:1;">&#8592; Izmeni</button>
+            <button type="button" onclick="nekokoBookingConfirm('<?php echo esc_js($listing->ID); ?>')" class="nekoko-btn" style="flex:2;">Potvrdi i pošalji zahtev</button>
+        </div>
+    </div>
+    </div>
+    <script>
+    function nekokoBookingReview(id){
+        var n=document.getElementById('bk-name-'+id).value.trim(),
+            e=document.getElementById('bk-email-'+id).value.trim(),
+            m=document.getElementById('bk-msg-'+id).value.trim(),
+            d=document.getElementById('bk-date-'+id).value;
+        if(!n||!e||!m){alert('Popunite sva obavezna polja (ime, email, poruka).');return;}
+        document.getElementById('rv-name-'+id).textContent=n;
+        document.getElementById('rv-email-'+id).textContent=e;
+        document.getElementById('rv-msg-'+id).textContent=m;
+        var dr=document.getElementById('rv-date-row-'+id);
+        if(d){document.getElementById('rv-date-'+id).textContent=d;dr.style.display='';}
+        else{dr.style.display='none';}
+        document.getElementById('booking-step1-'+id).style.display='none';
+        document.getElementById('booking-step2-'+id).style.display='block';
+    }
+    function nekokoBookingBack(id){
+        document.getElementById('booking-step1-'+id).style.display='block';
+        document.getElementById('booking-step2-'+id).style.display='none';
+    }
+    function nekokoBookingConfirm(id){document.getElementById('bk-submit-'+id).click();}
+    </script>
     <?php return ob_get_clean();
 }
 
