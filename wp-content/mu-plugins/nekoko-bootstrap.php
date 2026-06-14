@@ -15,7 +15,7 @@ function nekoko_bootstrap_run() {
 
     // Activate all required plugins
     $plugins = [
-        "wordfence/wordfence.php",
+        //"wordfence/wordfence.php",
         "wp-mail-smtp/wp_mail_smtp.php",
         "user-role-editor/user-role-editor.php",
         "advanced-custom-fields/acf.php",
