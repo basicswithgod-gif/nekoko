@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 defined( "ABSPATH" ) || exit;
 
 // US 4.1 - Security Hardening

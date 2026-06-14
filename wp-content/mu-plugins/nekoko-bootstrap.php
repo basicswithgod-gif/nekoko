@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * NekoKo Bootstrap MU-Plugin
  * Runs once on first WordPress load after setup:

@@ -1,4 +1,4 @@
-﻿<?php get_header(); ?>
+<?php get_header(); ?>
 <main class="nekoko-single-listing" style="padding:40px 20px;max-width:1200px;margin:0 auto;">
 <?php while ( have_posts() ) : the_post(); ?>
 <div style="display:grid;grid-template-columns:2fr 1fr;gap:40px;">

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 defined( 'ABSPATH' ) || exit;
 ?>
 <?php astra_content_bottom(); ?>
