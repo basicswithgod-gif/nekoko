@@ -1,0 +1,11 @@
+{
+  "name": "nekoko-child",
+  "private": true,
+  "scripts": {
+    "build:css": "sass --style=compressed --no-source-map scss/main.scss assets/css/style.min.css",
+    "watch:css": "sass --watch --style=compressed --no-source-map scss/main.scss:assets/css/style.min.css"
+  },
+  "devDependencies": {
+    "sass": "^1.101.0"
+  }
+}

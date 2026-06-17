@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * NekoKo Seed Data Script — US 5.2
  * Run via WP-CLI: wp eval-file wp-content/nekoko-seed.php

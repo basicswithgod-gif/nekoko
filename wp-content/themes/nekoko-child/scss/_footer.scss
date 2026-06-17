@@ -1,0 +1,75 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.nekoko-footer {
+	background: v.$color-dark;
+	color: #ccc;
+	padding: 48px 20px 24px;
+
+	&__inner {
+		display: grid;
+		grid-template-columns: 2fr 1fr 1fr;
+		gap: 48px;
+		max-width: 1200px;
+		margin: 0 auto;
+		align-items: start;
+	}
+
+	&__logo {
+		font-family: v.$font-heading;
+		font-size: 1.5rem;
+		font-weight: 800;
+		color: #fff;
+		margin-bottom: 12px;
+		display: block;
+
+		span {
+			color: v.$color-yellow;
+		}
+	}
+
+	&__brand p {
+		color: #aaa;
+		font-size: .875rem;
+		margin: 8px 0 0;
+	}
+
+	&__links {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+
+		a {
+			color: #aaa;
+			font-size: .875rem;
+			transition: color .2s;
+
+			&:hover {
+				color: v.$color-yellow;
+			}
+		}
+	}
+
+	&__meta {
+		font-size: .8rem;
+		color: #888;
+
+		p {
+			margin: 4px 0;
+		}
+	}
+
+	&__disclaimer {
+		font-style: italic;
+	}
+}
+
+@include m.responsive(tablet) {
+	.nekoko-footer__inner {
+		grid-template-columns: 1fr;
+		gap: 32px;
+	}
+}

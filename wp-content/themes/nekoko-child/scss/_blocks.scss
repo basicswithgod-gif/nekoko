@@ -1,0 +1,10 @@
+// Styles for the custom ACF Gutenberg blocks rendered by the nekoko plugin
+// (blocks/featured-jobs, blocks/job-categories render.php templates).
+
+.nekoko-block-featured-jobs .nekoko-job-grid {
+	grid-template-columns: repeat(var(--nekoko-grid-columns, 3), 1fr);
+}
+
+.nekoko-block-job-categories .nekoko-categories-grid {
+	margin: 0;
+}

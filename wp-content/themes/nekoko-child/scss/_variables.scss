@@ -1,0 +1,19 @@
+// Brand palette - source: NekoKo Brand Style Guide.pdf
+$color-blue:   #004682; // primary accent
+$color-yellow: #F5B335; // primary accent
+$color-gray:   #CFCFCF; // primary accent
+$color-red:    #BD433F; // secondary accent
+$color-light:  #EDEDED; // secondary accent
+$color-cream:  #FAFAF7; // tertiary accent
+$color-dark:   #2E2E2E; // tertiary accent
+
+// Typography - source: NekoKo Brand Style Guide.pdf
+$font-heading: 'Crimson Pro', serif;
+$font-body:    'Inter', sans-serif;
+
+$radius: 8px;
+$shadow: 0 2px 12px rgba(0, 70, 130, 0.08);
+$shadow-hover: 0 8px 24px rgba(0, 70, 130, 0.14);
+
+$breakpoint-tablet: 768px;
+$breakpoint-mobile: 480px;

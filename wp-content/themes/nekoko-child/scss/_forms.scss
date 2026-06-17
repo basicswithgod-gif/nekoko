@@ -1,0 +1,30 @@
+@use 'variables' as v;
+
+.nekoko-form {
+	.form-group {
+		margin-bottom: 20px;
+	}
+
+	label {
+		display: block;
+		font-weight: 600;
+		margin-bottom: 6px;
+		color: v.$color-dark;
+	}
+
+	input, textarea, select {
+		width: 100%;
+		padding: 12px 16px;
+		border: 2px solid v.$color-light;
+		border-radius: v.$radius;
+		font-family: v.$font-body;
+		font-size: 1rem;
+		transition: border-color .2s;
+		box-sizing: border-box;
+
+		&:focus {
+			outline: none;
+			border-color: v.$color-blue;
+		}
+	}
+}

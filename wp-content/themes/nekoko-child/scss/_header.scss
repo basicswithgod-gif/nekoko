@@ -1,0 +1,51 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.nekoko-site-header {
+	background: #fff;
+	box-shadow: v.$shadow;
+
+	&__inner {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 16px 20px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	&__logo {
+		font-family: v.$font-heading;
+		font-size: 1.5rem;
+		font-weight: 800;
+		color: v.$color-dark;
+
+		span {
+			color: v.$color-yellow;
+		}
+	}
+
+	&__links {
+		list-style: none;
+		display: flex;
+		gap: 24px;
+		margin: 0;
+		padding: 0;
+
+		a {
+			color: v.$color-dark;
+			font-weight: 500;
+
+			&:hover, &.active {
+				color: v.$color-blue;
+			}
+		}
+	}
+}
+
+@include m.responsive(tablet) {
+	.nekoko-site-header__inner {
+		flex-direction: column;
+		gap: 12px;
+	}
+}

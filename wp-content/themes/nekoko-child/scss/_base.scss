@@ -1,0 +1,42 @@
+@use 'variables' as v;
+
+:root {
+	--nekoko-blue: #{v.$color-blue};
+	--nekoko-yellow: #{v.$color-yellow};
+	--nekoko-gray: #{v.$color-gray};
+	--nekoko-red: #{v.$color-red};
+	--nekoko-light: #{v.$color-light};
+	--nekoko-cream: #{v.$color-cream};
+	--nekoko-dark: #{v.$color-dark};
+	--nekoko-radius: #{v.$radius};
+	--nekoko-shadow: #{v.$shadow};
+}
+
+body {
+	font-family: v.$font-body;
+	color: v.$color-dark;
+	background-color: v.$color-cream;
+	line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: v.$font-heading;
+	font-weight: 700;
+	color: v.$color-blue;
+	line-height: 1.2;
+}
+
+a {
+	color: v.$color-blue;
+	text-decoration: none;
+	transition: color .2s;
+
+	&:hover {
+		color: v.$color-yellow;
+	}
+}
+
+hr {
+	border: none;
+	border-top: 1px solid v.$color-light;
+}

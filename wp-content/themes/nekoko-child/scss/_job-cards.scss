@@ -1,0 +1,119 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.nekoko-job-grid {
+	@include m.grid-auto-fill();
+
+	&--search {
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	}
+}
+
+.nekoko-job-card,
+.listing-card {
+	@include m.card;
+	@include m.card-hover;
+	overflow: hidden;
+
+	&__image,
+	.card-image {
+		width: 100%;
+		height: 200px;
+		object-fit: cover;
+		background: v.$color-light;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 3rem;
+	}
+
+	&__body,
+	.card-body {
+		padding: 20px;
+	}
+
+	&__meta-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 8px;
+	}
+
+	&__category,
+	.card-category {
+		font-size: .75rem;
+		font-weight: 600;
+		color: v.$color-blue;
+		text-transform: uppercase;
+		letter-spacing: .5px;
+	}
+
+	&__city {
+		font-size: .75rem;
+		color: #666;
+	}
+
+	&__title,
+	h3 {
+		font-size: 1.1rem;
+		margin: 0 0 8px;
+
+		a {
+			color: v.$color-dark;
+		}
+	}
+
+	&__rating-count {
+		color: #666;
+		font-size: .8rem;
+		margin-left: 4px;
+	}
+
+	&__price {
+		font-size: 1rem;
+		font-weight: 700;
+		color: v.$color-blue;
+		margin-bottom: 12px;
+	}
+
+	&__excerpt {
+		color: #666;
+		font-size: .875rem;
+		margin: 0 0 12px;
+	}
+}
+
+.card-meta {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: .875rem;
+	color: #666;
+}
+
+.star-rating {
+	display: inline-flex;
+	gap: 2px;
+
+	.star {
+		color: v.$color-gray;
+		font-size: 1.2rem;
+
+		&.filled {
+			color: v.$color-yellow;
+		}
+	}
+}
+
+.nekoko-no-results {
+	text-align: center;
+	padding: 80px 0;
+	background: #fff;
+	border-radius: 12px;
+
+	p {
+		font-size: 1.2rem;
+		color: #666;
+		margin-bottom: 20px;
+	}
+}

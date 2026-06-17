@@ -1,0 +1,54 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.nekoko-btn {
+	@include m.button-base;
+	background: v.$color-blue !important;
+	color: #fff !important;
+
+	&:hover {
+		background: #003568 !important;
+		transform: translateY(-1px);
+	}
+
+	&--block {
+		width: 100%;
+		text-align: center;
+		display: block;
+		box-sizing: border-box;
+	}
+}
+
+.nekoko-btn-outline {
+	@include m.button-base;
+	background: transparent;
+	color: v.$color-blue !important;
+	padding: 11px 28px;
+	border: 2px solid v.$color-blue;
+
+	&:hover {
+		background: v.$color-blue;
+		color: #fff !important;
+	}
+}
+
+.nekoko-btn-accent {
+	@include m.button-base;
+	background: v.$color-yellow;
+	color: v.$color-dark !important;
+	font-weight: 700;
+
+	&:hover {
+		background: #d99e20;
+	}
+}
+
+.btn-primary .wp-block-button__link {
+	@include m.button-base;
+	background: v.$color-blue;
+	color: #fff !important;
+
+	&:hover {
+		background: #003568;
+	}
+}

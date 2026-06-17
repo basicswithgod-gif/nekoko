@@ -38,18 +38,32 @@ subscribe.php
 /.htaccess
 /local-xdebuginfo.php
 
-# Third-party plugins (not custom)
+# Backups and logs
+*.sql
+/wp-content/updraft/
+/wp-content/wflogs/
+
+# Third-party plugins (not custom — install via WP Admin on deploy)
 /wp-content/plugins/astra/
 /wp-content/plugins/wordfence/
 /wp-content/plugins/wp-mail-smtp/
 /wp-content/plugins/user-role-editor/
 /wp-content/plugins/advanced-custom-fields/
+/wp-content/plugins/advanced-custom-fields-pro/
 /wp-content/plugins/wpforms-lite/
 /wp-content/plugins/wordpress-seo/
 /wp-content/plugins/wp-super-cache/
+/wp-content/plugins/imagify/
+/wp-content/plugins/loco-translate/
+/wp-content/plugins/pc-robotstxt/
+/wp-content/plugins/query-monitor/
+/wp-content/plugins/simple-history/
+/wp-content/plugins/svg-support/
+/wp-content/plugins/updraftplus/
 
-# Third-party themes (not custom)
+# Third-party themes (not custom — install via WP Admin on deploy)
 /wp-content/themes/astra/
+/wp-content/themes/hello-elementor/
 /wp-content/themes/twentytwentythree/
 /wp-content/themes/twentytwentyfour/
 /wp-content/themes/twentytwentyfive/

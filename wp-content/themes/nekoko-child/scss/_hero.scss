@@ -1,0 +1,85 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.nekoko-hero {
+	background: linear-gradient(135deg, v.$color-blue 0%, #006ab8 100%);
+	color: #fff;
+	padding: 80px 20px 100px;
+	text-align: center;
+	position: relative;
+	overflow: hidden;
+
+	h1 {
+		color: #fff;
+		font-size: clamp(2rem, 5vw, 3.5rem);
+		margin-bottom: 20px;
+	}
+
+	p {
+		font-size: 1.2rem;
+		opacity: .9;
+		max-width: 600px;
+		margin: 0 auto 40px;
+	}
+
+	.wp-block-buttons {
+		display: flex;
+		gap: 16px;
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+}
+
+.nekoko-section {
+	padding: 80px 20px;
+	background: #fff;
+
+	h2 {
+		text-align: center;
+		font-size: 2rem;
+		margin-bottom: 48px;
+	}
+
+	&--gray {
+		background: v.$color-cream;
+	}
+}
+
+.nekoko-steps {
+	max-width: 900px;
+	margin: 0 auto;
+	gap: 32px;
+}
+
+.nekoko-step {
+	text-align: center;
+	padding: 32px 20px;
+
+	.step-num {
+		width: 48px;
+		height: 48px;
+		background: v.$color-yellow;
+		color: v.$color-dark;
+		border-radius: 50%;
+		font-size: 1.4rem;
+		font-weight: 800;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin: 0 auto 20px;
+	}
+}
+
+@include m.responsive(tablet) {
+	.nekoko-hero {
+		padding: 60px 20px 70px;
+		h1 { font-size: 2rem; }
+	}
+}
+
+@include m.responsive(mobile) {
+	.nekoko-hero {
+		h1 { font-size: 1.6rem; }
+		.wp-block-buttons { flex-direction: column; align-items: center; }
+	}
+}

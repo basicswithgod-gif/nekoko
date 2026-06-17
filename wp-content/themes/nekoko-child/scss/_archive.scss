@@ -1,0 +1,120 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.nekoko-job-archive {
+	padding: 60px 20px;
+	max-width: 1200px;
+	margin: 0 auto;
+
+	&__layout {
+		display: grid;
+		grid-template-columns: 240px 1fr;
+		gap: 40px;
+	}
+
+	&__sidebar {
+		@include m.card;
+		padding: 24px;
+		height: fit-content;
+	}
+
+	&__category-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+
+		li {
+			margin-bottom: 8px;
+		}
+
+		a {
+			color: v.$color-dark;
+			display: flex;
+			justify-content: space-between;
+
+			span {
+				color: #999;
+			}
+		}
+	}
+}
+
+.nekoko-single-job {
+	padding: 40px 20px;
+	max-width: 1200px;
+	margin: 0 auto;
+
+	&__layout {
+		display: grid;
+		grid-template-columns: 2fr 1fr;
+		gap: 40px;
+	}
+
+	&__image {
+		width: 100%;
+		border-radius: 12px;
+		margin-bottom: 24px;
+		object-fit: cover;
+		max-height: 400px;
+	}
+
+	&__meta-row {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		margin-bottom: 16px;
+		flex-wrap: wrap;
+	}
+
+	&__city {
+		font-size: .85rem;
+		color: #666;
+	}
+
+	&__rating-count {
+		color: #666;
+		font-size: .9rem;
+	}
+
+	&__price {
+		font-size: 1.5rem;
+		font-weight: 800;
+		color: v.$color-blue;
+		margin-bottom: 16px;
+
+		span {
+			font-size: 1rem;
+			font-weight: 400;
+		}
+	}
+
+	&__provider-card {
+		@include m.card;
+		padding: 24px;
+		position: sticky;
+		top: 90px;
+	}
+
+	&__provider {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		margin-bottom: 20px;
+
+		img {
+			border-radius: 50%;
+		}
+
+		span {
+			color: #666;
+			font-size: .85rem;
+		}
+	}
+}
+
+@include m.responsive(tablet) {
+	.nekoko-job-archive__layout,
+	.nekoko-single-job__layout {
+		grid-template-columns: 1fr;
+	}
+}

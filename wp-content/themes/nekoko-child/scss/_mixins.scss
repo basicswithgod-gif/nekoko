@@ -1,0 +1,42 @@
+@use 'variables' as v;
+
+@mixin card {
+	background: #fff;
+	border-radius: 12px;
+	box-shadow: v.$shadow;
+}
+
+@mixin card-hover {
+	transition: transform .2s, box-shadow .2s;
+	&:hover {
+		transform: translateY(-4px);
+		box-shadow: v.$shadow-hover;
+	}
+}
+
+@mixin button-base {
+	display: inline-block;
+	padding: 12px 28px;
+	border-radius: v.$radius;
+	font-weight: 600;
+	font-size: 1rem;
+	font-family: v.$font-body;
+	border: none;
+	cursor: pointer;
+	text-decoration: none;
+	transition: background .2s, transform .1s;
+}
+
+@mixin responsive($breakpoint) {
+	@if $breakpoint == tablet {
+		@media (max-width: v.$breakpoint-tablet) { @content; }
+	} @else if $breakpoint == mobile {
+		@media (max-width: v.$breakpoint-mobile) { @content; }
+	}
+}
+
+@mixin grid-auto-fill($min-width: 280px, $gap: 24px) {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax($min-width, 1fr));
+	gap: $gap;
+}

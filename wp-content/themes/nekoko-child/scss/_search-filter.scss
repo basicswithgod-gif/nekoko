@@ -1,0 +1,112 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.nekoko-search-wrap {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 20px;
+}
+
+.nekoko-search-bar {
+	background: #fff;
+	border-radius: 12px;
+	padding: 24px;
+	box-shadow: v.$shadow;
+	margin-bottom: 32px;
+
+	&__grid {
+		display: grid;
+		grid-template-columns: 2fr 1fr 1fr 1fr 1fr auto;
+		gap: 12px;
+		align-items: end;
+		flex-wrap: wrap;
+	}
+
+	&__sort {
+		margin-top: 12px;
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		flex-wrap: wrap;
+
+		span {
+			font-size: .8rem;
+			color: #666;
+		}
+	}
+}
+
+.nekoko-search-field {
+	label {
+		font-size: .8rem;
+		font-weight: 600;
+		color: #666;
+		display: block;
+		margin-bottom: 4px;
+	}
+
+	input, select {
+		width: 100%;
+		padding: 10px 14px;
+		border: 2px solid v.$color-light;
+		border-radius: v.$radius;
+		font-size: .9rem;
+		box-sizing: border-box;
+		font-family: v.$font-body;
+	}
+
+	&__pair {
+		display: flex;
+		gap: 6px;
+
+		input {
+			width: 50%;
+			padding: 10px 8px;
+			font-size: .85rem;
+		}
+	}
+
+	&--submit {
+		display: flex;
+	}
+}
+
+.nekoko-sort-pill {
+	font-size: .85rem;
+	padding: 4px 12px;
+	border-radius: 20px;
+	border: 1px solid v.$color-light;
+	background: transparent;
+	color: v.$color-dark;
+
+	&--active {
+		border-color: v.$color-blue;
+		background: v.$color-blue;
+		color: #fff;
+	}
+}
+
+.nekoko-search-reset {
+	font-size: .85rem;
+	color: v.$color-red;
+	margin-left: auto;
+}
+
+.nekoko-search-results-meta {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+
+	p {
+		margin: 0;
+		color: #666;
+		font-size: .9rem;
+	}
+}
+
+@include m.responsive(tablet) {
+	.nekoko-search-bar__grid {
+		grid-template-columns: 1fr 1fr;
+	}
+}
