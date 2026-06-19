@@ -1,4 +1,5 @@
 @use 'variables' as v;
+@use 'mixins' as m;
 
 :root {
 	--nekoko-blue: #{v.$color-blue};
@@ -14,6 +15,7 @@
 
 body {
 	font-family: v.$font-body;
+	font-size: 22px;
 	color: v.$color-dark;
 	background-color: v.$color-cream;
 	line-height: 1.6;
@@ -24,6 +26,23 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: 700;
 	color: v.$color-blue;
 	line-height: 1.2;
+}
+
+h1 { font-size: 65px; }
+h2 { font-size: 48px; }
+h3 { font-size: 36px; }
+h4 { font-size: 28px; }
+h5 { font-size: 24px; }
+h6 { font-size: 20px; }
+
+@include m.responsive(tablet) {
+	body { font-size: 18px; }
+	h1   { font-size: 44px; }
+	h2   { font-size: 32px; }
+	h3   { font-size: 24px; }
+	h4   { font-size: 20px; }
+	h5   { font-size: 18px; }
+	h6   { font-size: 16px; }
 }
 
 a {
