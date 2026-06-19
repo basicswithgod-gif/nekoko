@@ -15,13 +15,12 @@
 	}
 
 	&__logo {
-		font-family: v.$font-heading;
-		font-size: 1.5rem;
-		font-weight: 800;
-		color: v.$color-dark;
+		display: flex;
+		align-items: center;
 
-		span {
-			color: v.$color-yellow;
+		img {
+			display: block;
+			width: auto;
 		}
 	}
 

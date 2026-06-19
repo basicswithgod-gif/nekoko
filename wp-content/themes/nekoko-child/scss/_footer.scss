@@ -16,15 +16,13 @@
 	}
 
 	&__logo {
-		font-family: v.$font-heading;
-		font-size: 1.5rem;
-		font-weight: 800;
-		color: #fff;
+		display: inline-flex;
+		align-items: center;
 		margin-bottom: 12px;
-		display: block;
 
-		span {
-			color: v.$color-yellow;
+		img {
+			display: block;
+			width: auto;
 		}
 	}
 
