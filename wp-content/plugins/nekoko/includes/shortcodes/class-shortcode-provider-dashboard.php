@@ -29,7 +29,9 @@ class Nekoko_Shortcode_Provider_Dashboard {
 			]
 		);
 
-		$profile_url = get_edit_user_link( $user->ID );
+		$upcoming_bookings  = Nekoko_Booking_CPT::get_upcoming( $user->ID );
+		$completed_bookings = Nekoko_Booking_CPT::get_completed( $user->ID );
+		$profile_url        = get_edit_user_link( $user->ID );
 
 		ob_start();
 		include NEKOKO_PATH . 'templates/shortcodes/provider-dashboard.php';

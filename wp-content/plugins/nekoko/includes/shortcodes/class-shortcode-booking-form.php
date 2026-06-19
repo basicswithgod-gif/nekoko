@@ -35,6 +35,7 @@ class Nekoko_Shortcode_Booking_Form {
 			$date    = sanitize_text_field( wp_unslash( $_POST['nekoko_date'] ?? '' ) );
 
 			if ( $name && $email && $message ) {
+				Nekoko_Booking_CPT::save( $job, $name, $email, $message, $date );
 				Nekoko_Emails::send_booking_emails( $job, $name, $email, $message, $date );
 				ob_start();
 				include NEKOKO_PATH . 'templates/shortcodes/booking-form-success.php';

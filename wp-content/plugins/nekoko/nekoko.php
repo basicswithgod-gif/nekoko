@@ -16,6 +16,7 @@ define( 'NEKOKO_PATH', plugin_dir_path( __FILE__ ) );
 define( 'NEKOKO_URL', plugin_dir_url( __FILE__ ) );
 
 require_once NEKOKO_PATH . 'includes/class-nekoko-cpt.php';
+require_once NEKOKO_PATH . 'includes/class-nekoko-booking-cpt.php';
 require_once NEKOKO_PATH . 'includes/class-nekoko-taxonomies.php';
 require_once NEKOKO_PATH . 'includes/class-nekoko-roles.php';
 require_once NEKOKO_PATH . 'includes/class-nekoko-emails.php';
@@ -30,6 +31,7 @@ require_once NEKOKO_PATH . 'includes/shortcodes/class-shortcode-provider-registr
 require_once NEKOKO_PATH . 'includes/shortcodes/class-shortcode-provider-dashboard.php';
 
 Nekoko_CPT::init();
+Nekoko_Booking_CPT::init();
 Nekoko_Taxonomies::init();
 Nekoko_Roles::init();
 Nekoko_Emails::init();
