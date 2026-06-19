@@ -16,8 +16,16 @@ defined( 'ABSPATH' ) || exit;
 		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="nekoko-site-header__logo">
 			Neko<span>Ko</span>.rs
 		</a>
+		<button class="nekoko-site-header__hamburger"
+			aria-expanded="false"
+			aria-controls="nekoko-primary-nav"
+			aria-label="<?php esc_attr_e( 'Toggle navigation', 'nekoko-child' ); ?>">
+			<span class="nekoko-site-header__bar"></span>
+			<span class="nekoko-site-header__bar"></span>
+			<span class="nekoko-site-header__bar"></span>
+		</button>
 		<?php if ( has_nav_menu( 'primary' ) ) : ?>
-			<nav class="nekoko-site-header__nav" aria-label="<?php esc_attr_e( 'Primary Navigation', 'nekoko-child' ); ?>">
+			<nav id="nekoko-primary-nav" class="nekoko-site-header__nav" aria-label="<?php esc_attr_e( 'Primary Navigation', 'nekoko-child' ); ?>">
 				<?php
 				wp_nav_menu(
 					[

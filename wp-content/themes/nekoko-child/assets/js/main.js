@@ -25,5 +25,21 @@
 				link.classList.add( 'active' );
 			}
 		} );
+
+		var hamburger = document.querySelector( '.nekoko-site-header__hamburger' );
+		var nav       = document.getElementById( 'nekoko-primary-nav' );
+		if ( hamburger && nav ) {
+			hamburger.addEventListener( 'click', function () {
+				var isOpen = nav.classList.toggle( 'is-open' );
+				hamburger.setAttribute( 'aria-expanded', isOpen ? 'true' : 'false' );
+			} );
+			document.addEventListener( 'keydown', function ( e ) {
+				if ( e.key === 'Escape' && nav.classList.contains( 'is-open' ) ) {
+					nav.classList.remove( 'is-open' );
+					hamburger.setAttribute( 'aria-expanded', 'false' );
+					hamburger.focus();
+				}
+			} );
+		}
 	} );
 } )();
