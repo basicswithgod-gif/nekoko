@@ -53,7 +53,8 @@ get_header();
 							<?php echo get_avatar( $provider->ID, 56 ); ?>
 							<div>
 								<strong><?php echo esc_html( $provider->display_name ); ?></strong><br>
-								<span>Pružalac usluge</span>
+								<span>Pružalac usluge</span><br>
+								<a href="<?php echo esc_url( home_url( '/provajder/' . $provider->user_nicename . '/' ) ); ?>" style="font-size:.85rem;">Pogledaj profil →</a>
 							</div>
 						</div>
 					<?php endif; ?>
