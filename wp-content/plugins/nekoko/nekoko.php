@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'NEKOKO_VERSION', '1.0.0' );
+define( 'NEKOKO_VERSION', '1.1.0' );
 define( 'NEKOKO_PATH', plugin_dir_path( __FILE__ ) );
 define( 'NEKOKO_URL', plugin_dir_url( __FILE__ ) );
 
@@ -29,6 +29,9 @@ require_once NEKOKO_PATH . 'includes/shortcodes/class-shortcode-reviews.php';
 require_once NEKOKO_PATH . 'includes/shortcodes/class-shortcode-search-filter.php';
 require_once NEKOKO_PATH . 'includes/shortcodes/class-shortcode-provider-registration.php';
 require_once NEKOKO_PATH . 'includes/shortcodes/class-shortcode-provider-dashboard.php';
+require_once NEKOKO_PATH . 'includes/class-nekoko-review-cpt.php';
+require_once NEKOKO_PATH . 'includes/class-nekoko-review-token.php';
+require_once NEKOKO_PATH . 'includes/class-nekoko-provider-profile.php';
 
 Nekoko_CPT::init();
 Nekoko_Booking_CPT::init();
@@ -44,3 +47,17 @@ Nekoko_Shortcode_Reviews::init();
 Nekoko_Shortcode_Search_Filter::init();
 Nekoko_Shortcode_Provider_Registration::init();
 Nekoko_Shortcode_Provider_Dashboard::init();
+Nekoko_Review_CPT::init();
+Nekoko_Review_Token::init();
+Nekoko_Provider_Profile::init();
+
+add_action(
+	'init',
+	function () {
+		if ( get_option( 'nekoko_rewrite_version' ) !== NEKOKO_VERSION ) {
+			flush_rewrite_rules();
+			update_option( 'nekoko_rewrite_version', NEKOKO_VERSION );
+		}
+	},
+	999
+);
