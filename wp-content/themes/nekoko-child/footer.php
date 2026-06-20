@@ -5,8 +5,8 @@ defined( 'ABSPATH' ) || exit;
 	<div class="nekoko-footer__inner">
 		<div class="nekoko-footer__brand">
 			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="nekoko-footer__logo">
-				<img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/logo-nekoko.png' ); ?>"
-					alt="NekoKo.rs" height="40" width="40">
+				<img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/logo-nekoko.svg' ); ?>"
+					alt="NekoKo.rs" height="44" width="179">
 			</a>
 			<p>Platforma za nišne usluge u Srbiji.</p>
 		</div>

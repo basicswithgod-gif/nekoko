@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 285 70" role="img" aria-label="NekoKo.rs">
+  <title>NekoKo.rs</title>
+  <text y="56" font-family="Inter, system-ui, -apple-system, Arial, sans-serif" font-weight="700" font-size="56">
+    <tspan fill="#FFFFFF">Neko</tspan><tspan fill="#F5B335">KO</tspan>
+  </text>
+  <circle cx="246" cy="36" r="15" fill="none" stroke="#F5B335" stroke-width="6"/>
+  <line x1="257" y1="47" x2="273" y2="63" stroke="#F5B335" stroke-width="6" stroke-linecap="round"/>
+</svg>
