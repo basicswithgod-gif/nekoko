@@ -70,6 +70,22 @@ class Nekoko_Emails {
 		);
 	}
 
+	public static function send_review_request( $email, $customer_name, $job_title, $review_url ) {
+		wp_mail(
+			$email,
+			'Kako je prošlo? Ostavi recenziju — ' . $job_title,
+			self::render(
+				'review-request',
+				[
+					'customer_name' => $customer_name,
+					'job_title'     => $job_title,
+					'review_url'    => $review_url,
+				]
+			),
+			self::headers()
+		);
+	}
+
 	public static function send_welcome_email( $user_id ) {
 		$user = get_user_by( 'id', $user_id );
 		if ( ! $user ) {
