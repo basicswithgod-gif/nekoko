@@ -29,6 +29,18 @@ if ( ! empty( $selected ) ) {
 $terms = get_terms( $term_args );
 
 $archive_base = home_url( '/pretraga/?job_type=' . rawurlencode( $tc_type ) . '&job_category=' );
+
+$emoji_map = [
+	'ljubimci'  => '🐾',
+	'zivotinje' => '🐾',
+	'zdravlje'  => '❤️',
+	'lepota'    => '💅',
+	'ishrana'   => '🍽️',
+	'pomoc'     => '🤝',
+	'umetnost'  => '🎨',
+	'zabava'    => '🎉',
+	'ostalo'    => '🔧',
+];
 ?>
 <section class="nekoko-hp-top-cats">
 	<div class="nekoko-hp-top-cats__inner">
@@ -49,8 +61,10 @@ $archive_base = home_url( '/pretraga/?job_type=' . rawurlencode( $tc_type ) . '&
 								<img src="<?php echo esc_url( $image['url'] ); ?>"
 								     alt="<?php echo esc_attr( $term->name ); ?>"
 								     width="48" height="48">
-							<?php else : ?>
-								<span class="nekoko-cat-card__icon-emoji">🏷️</span>
+							<?php else :
+									$emoji = $emoji_map[ $term->slug ] ?? '🏷️';
+								?>
+								<span class="nekoko-cat-card__icon-emoji"><?php echo $emoji; ?></span>
 							<?php endif; ?>
 						</div>
 						<span class="nekoko-cat-card__label"><?php echo esc_html( $term->name ); ?></span>

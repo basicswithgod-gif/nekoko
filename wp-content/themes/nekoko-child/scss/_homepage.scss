@@ -156,14 +156,14 @@
 	}
 
 	&__input {
-		flex: 1;
+		flex: 1 1 0;
+		min-width: 0;
 		padding: 12px 16px;
 		border: 1px solid v.$color-gray;
 		border-radius: v.$radius;
 		font-family: v.$font-body;
 		font-size: 1rem;
 		color: v.$color-dark;
-		min-width: 0;
 
 		&:focus {
 			outline: 2px solid v.$color-blue;
@@ -178,7 +178,7 @@
 
 	&__select-wrap {
 		position: relative;
-		flex-shrink: 0;
+		flex: 1 1 0;
 
 		&::after {
 			content: '▾';
@@ -193,6 +193,7 @@
 	}
 
 	&__select {
+		width: 100%;
 		padding: 12px 36px 12px 16px;
 		border: 1px solid v.$color-gray;
 		border-radius: v.$radius;
@@ -227,7 +228,22 @@
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		gap: 60px;
-		align-items: center;
+		align-items: start;
+	}
+
+	&__eyebrow {
+		display: block;
+		font-family: v.$font-body;
+		font-size: 0.78rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: v.$color-blue;
+		margin-bottom: 12px;
+
+		&--red {
+			color: v.$color-red;
+		}
 	}
 
 	&__heading {
@@ -248,39 +264,66 @@
 	&__cards {
 		display: flex;
 		flex-direction: column;
-		gap: 12px;
+		gap: 10px;
+	}
+}
 
-		.nekoko-job-card {
-			@include m.card;
-			@include m.card-hover;
-			overflow: hidden;
+// ── Homepage job card (used in Offer + Request previews) ──────────────────────
+.nekoko-hp-card {
+	background: #fff;
+	border-radius: 10px;
+	border: 1px solid #e8e8e8;
+	transition: box-shadow .18s, transform .18s;
 
-			&__image {
-				display: none;
-			}
-
-			&__body {
-				padding: 16px 20px;
-			}
-
-			&__excerpt {
-				display: none;
-			}
-
-			a.nekoko-btn {
-				display: none;
-			}
-		}
-
-		.nekoko-job-card--ph {
-			.nekoko-job-card__body {
-				padding: 16px 20px;
-			}
-		}
+	&:hover {
+		box-shadow: 0 4px 16px rgba(0,0,0,.1);
+		transform: translateY(-2px);
 	}
 
-	&__type-badge {
-		margin-bottom: 4px;
+	&__body {
+		padding: 16px 20px;
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+
+	&__category {
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		color: v.$color-red;
+	}
+
+	&__title {
+		font-family: v.$font-body;
+		font-size: 0.95rem;
+		font-weight: 600;
+		color: v.$color-dark;
+		line-height: 1.35;
+		margin: 0;
+	}
+
+	&__footer {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-top: 4px;
+	}
+
+	&__city {
+		font-size: 0.8rem;
+		color: #888;
+	}
+
+	&__price {
+		font-size: 0.9rem;
+		font-weight: 700;
+		color: v.$color-dark;
+		white-space: nowrap;
+
+		&--red {
+			color: v.$color-red;
+		}
 	}
 }
 
