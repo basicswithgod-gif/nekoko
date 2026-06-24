@@ -39,5 +39,13 @@ defined( 'ABSPATH' ) || exit;
 				?>
 			</nav>
 		<?php endif; ?>
+
+		<div class="nekoko-site-header__actions">
+			<a href="<?php echo esc_url( home_url( '/prijava/' ) ); ?>"
+			   class="nekoko-btn nekoko-btn--outline-white">Prijava</a>
+			<a href="<?php echo esc_url( home_url( '/postavi-oglas/' ) ); ?>"
+			   class="nekoko-btn nekoko-btn--accent">Postavite oglas</a>
+		</div>
+
 	</div>
 </header>

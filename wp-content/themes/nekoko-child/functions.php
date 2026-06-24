@@ -34,12 +34,26 @@ function nekoko_child_enqueue_assets() {
 
 add_action( 'after_setup_theme', 'nekoko_child_register_menus' );
 function nekoko_child_register_menus() {
-	register_nav_menus(
-		[
-			'primary' => 'Primary Navigation',
-			'footer'  => 'Footer Links',
-		]
-	);
+	register_nav_menus( [
+		'primary'           => 'Primary Navigation',
+		'footer'            => 'Footer Links (legacy)',
+		'footer-ponuda'     => 'Footer — Ponuda',
+		'footer-potraznja'  => 'Footer — Potražnja',
+		'footer-informacije' => 'Footer — Informacije',
+	] );
+}
+
+add_action( 'after_setup_theme', 'nekoko_child_register_sidebars' );
+function nekoko_child_register_sidebars() {
+	register_sidebar( [
+		'name'          => 'Footer — Tagline',
+		'id'            => 'footer-tagline',
+		'description'   => 'Tekst ispod loga u footeru (Column 1).',
+		'before_widget' => '<div class="footer-tagline-widget">',
+		'after_widget'  => '</div>',
+		'before_title'  => '',
+		'after_title'   => '',
+	] );
 }
 
 add_action( 'after_setup_theme', 'nekoko_child_theme_supports' );

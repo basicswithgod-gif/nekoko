@@ -17,7 +17,7 @@ class Nekoko_Shortcode_Provider_Registration {
 
 		$errors  = [];
 		$success = false;
-		$vals    = [ 'first_name' => '', 'last_name' => '', 'email' => '', 'description' => '' ];
+		$vals    = [ 'first_name' => '', 'last_name' => '', 'email' => '', 'location' => '', 'description' => '' ];
 
 		if ( isset( $_POST['nekoko_provider_submit'] ) ) {
 			list( $errors, $vals, $success ) = self::handle_submission();
@@ -60,8 +60,9 @@ class Nekoko_Shortcode_Provider_Registration {
 		$email = sanitize_email( wp_unslash( $_POST['nekoko_email'] ?? '' ) );
 		$pass  = wp_unslash( $_POST['nekoko_password'] ?? '' );
 		$pass2 = wp_unslash( $_POST['nekoko_password2'] ?? '' );
-		$desc  = sanitize_textarea_field( wp_unslash( $_POST['nekoko_description'] ?? '' ) );
-		$vals  = [ 'first_name' => $first, 'last_name' => $last, 'email' => $email, 'description' => $desc ];
+		$location = sanitize_text_field( wp_unslash( $_POST['nekoko_location'] ?? '' ) );
+		$desc     = sanitize_textarea_field( wp_unslash( $_POST['nekoko_description'] ?? '' ) );
+		$vals     = [ 'first_name' => $first, 'last_name' => $last, 'email' => $email, 'location' => $location, 'description' => $desc ];
 
 		if ( ! $first ) {
 			$errors[] = 'Ime je obavezno.';
@@ -79,6 +80,9 @@ class Nekoko_Shortcode_Provider_Registration {
 		}
 		if ( $pass !== $pass2 ) {
 			$errors[] = 'Lozinke se ne poklapaju.';
+		}
+		if ( ! $location ) {
+			$errors[] = 'Grad/lokacija je obavezna.';
 		}
 		if ( ! $desc ) {
 			$errors[] = 'Opis usluga je obavezan.';
@@ -111,6 +115,7 @@ class Nekoko_Shortcode_Provider_Registration {
 		update_user_meta( $user_id, 'first_name', $first );
 		update_user_meta( $user_id, 'last_name', $last );
 		update_user_meta( $user_id, '_nekoko_provider_status', 'pending' );
+		update_user_meta( $user_id, '_nekoko_location', $location );
 		update_user_meta( $user_id, '_nekoko_service_description', $desc );
 		update_user_meta( $user_id, '_nekoko_accepted_terms', current_time( 'mysql' ) );
 		update_user_meta( $user_id, '_nekoko_accepted_disclaimer', current_time( 'mysql' ) );

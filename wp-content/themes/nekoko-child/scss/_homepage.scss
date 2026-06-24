@@ -1,0 +1,481 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+// ── shared layout ────────────────────────────────────────────────────────────
+%hp-section-inner {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 40px;
+}
+
+// ── Hero (Section 1) ─────────────────────────────────────────────────────────
+.nekoko-hp-hero {
+	background: v.$color-cream;
+	padding: 80px 0 100px;
+
+	&__inner {
+		@extend %hp-section-inner;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 64px;
+		align-items: center;
+	}
+
+	&__eyebrow {
+		display: block;
+		color: v.$color-red;
+		font-family: v.$font-body;
+		font-size: 0.78rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		margin-bottom: 16px;
+	}
+
+	&__heading {
+		font-family: v.$font-heading;
+		font-size: clamp(2rem, 3.8vw, 52px);
+		font-weight: 800;
+		color: v.$color-dark;
+		line-height: 1.08;
+		margin-bottom: 20px;
+	}
+
+	&__paragraph {
+		color: #555;
+		font-size: 1rem;
+		line-height: 1.65;
+		margin-bottom: 32px;
+		max-width: 440px;
+	}
+
+	&__buttons {
+		display: flex;
+		gap: 12px;
+		flex-wrap: wrap;
+	}
+
+	&__images {
+		position: relative;
+	}
+
+	&__grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 10px;
+		border-radius: 16px;
+		overflow: hidden;
+	}
+
+	&__img-wrap {
+		border-radius: 10px;
+		overflow: hidden;
+		aspect-ratio: 4 / 3;
+		background: v.$color-light;
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			display: block;
+		}
+	}
+
+	&__img-placeholder {
+		width: 100%;
+		height: 100%;
+		background: v.$color-light;
+	}
+
+	&__badge {
+		position: absolute;
+		bottom: -24px;
+		left: -16px;
+		background: #fff;
+		border-radius: 14px;
+		box-shadow: v.$shadow;
+		padding: 14px 20px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		min-width: 110px;
+	}
+
+	&__badge-number {
+		font-family: v.$font-heading;
+		font-size: 1.9rem;
+		font-weight: 800;
+		color: v.$color-dark;
+		line-height: 1;
+	}
+
+	&__badge-label {
+		font-size: 0.72rem;
+		color: #888;
+		margin-top: 4px;
+	}
+}
+
+// ── Search Bar (Section 2) ────────────────────────────────────────────────────
+.nekoko-hp-search {
+	background: #fff;
+	padding: 60px 0;
+	border-bottom: 1px solid v.$color-light;
+
+	&__inner {
+		@extend %hp-section-inner;
+		display: flex;
+		align-items: center;
+		gap: 48px;
+	}
+
+	&__text {
+		flex: 0 0 260px;
+	}
+
+	&__heading {
+		font-family: v.$font-heading;
+		font-size: clamp(1.6rem, 2.5vw, 2rem);
+		font-weight: 700;
+		color: v.$color-dark;
+		margin-bottom: 8px;
+	}
+
+	&__sub {
+		color: #666;
+		font-size: 0.9rem;
+		line-height: 1.55;
+		margin: 0;
+	}
+
+	&__form {
+		flex: 1;
+		display: flex;
+		gap: 10px;
+		align-items: center;
+	}
+
+	&__input {
+		flex: 1;
+		padding: 12px 16px;
+		border: 1px solid v.$color-gray;
+		border-radius: v.$radius;
+		font-family: v.$font-body;
+		font-size: 1rem;
+		color: v.$color-dark;
+		min-width: 0;
+
+		&:focus {
+			outline: 2px solid v.$color-blue;
+			outline-offset: 1px;
+			border-color: transparent;
+		}
+
+		&::placeholder {
+			color: #aaa;
+		}
+	}
+
+	&__select-wrap {
+		position: relative;
+		flex-shrink: 0;
+
+		&::after {
+			content: '▾';
+			position: absolute;
+			right: 12px;
+			top: 50%;
+			transform: translateY(-50%);
+			pointer-events: none;
+			color: #666;
+			font-size: 0.8rem;
+		}
+	}
+
+	&__select {
+		padding: 12px 36px 12px 16px;
+		border: 1px solid v.$color-gray;
+		border-radius: v.$radius;
+		font-family: v.$font-body;
+		font-size: 0.95rem;
+		background: #fff;
+		color: v.$color-dark;
+		appearance: none;
+		cursor: pointer;
+
+		&:focus {
+			outline: 2px solid v.$color-blue;
+			border-color: transparent;
+		}
+	}
+}
+
+// ── Offer / Request Preview (Sections 3, 5) ──────────────────────────────────
+.nekoko-hp-preview {
+	padding: 80px 0;
+
+	&--offer {
+		background: v.$color-light;
+	}
+
+	&--request {
+		background: v.$color-cream;
+	}
+
+	&__inner {
+		@extend %hp-section-inner;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 60px;
+		align-items: center;
+	}
+
+	&__heading {
+		font-family: v.$font-heading;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		font-weight: 800;
+		color: v.$color-dark;
+		margin-bottom: 16px;
+		line-height: 1.1;
+	}
+
+	&__paragraph {
+		color: #555;
+		line-height: 1.7;
+		margin-bottom: 28px;
+	}
+
+	&__cards {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+
+		.nekoko-job-card {
+			@include m.card;
+			@include m.card-hover;
+			overflow: hidden;
+
+			&__image {
+				display: none;
+			}
+
+			&__body {
+				padding: 16px 20px;
+			}
+
+			&__excerpt {
+				display: none;
+			}
+
+			a.nekoko-btn {
+				display: none;
+			}
+		}
+
+		.nekoko-job-card--ph {
+			.nekoko-job-card__body {
+				padding: 16px 20px;
+			}
+		}
+	}
+
+	&__type-badge {
+		margin-bottom: 4px;
+	}
+}
+
+// ── Top Categories (Sections 4, 6) ───────────────────────────────────────────
+.nekoko-hp-top-cats {
+	background: #fff;
+	padding: 80px 0;
+
+	&__inner {
+		@extend %hp-section-inner;
+		text-align: center;
+	}
+
+	&__heading {
+		font-family: v.$font-heading;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		font-weight: 800;
+		color: v.$color-dark;
+		margin-bottom: 12px;
+	}
+
+	&__sub {
+		color: #666;
+		margin-bottom: 48px;
+		font-size: 0.95rem;
+	}
+
+	&__grid {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 20px;
+		justify-content: center;
+	}
+}
+
+// Category card (homepage style, used inside .nekoko-hp-top-cats)
+.nekoko-cat-card {
+	background: #fff;
+	border: 1.5px solid v.$color-light;
+	border-radius: 14px;
+	padding: 28px 24px 20px;
+	text-align: center;
+	text-decoration: none;
+	color: v.$color-dark !important;
+	transition: all .2s;
+	min-width: 110px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+
+	&:hover {
+		border-color: v.$color-yellow;
+		box-shadow: v.$shadow;
+		transform: translateY(-3px);
+		text-decoration: none;
+	}
+
+	&__icon {
+		width: 52px;
+		height: 52px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
+		}
+	}
+
+	&__icon-emoji {
+		font-size: 2.2rem;
+		line-height: 1;
+	}
+
+	&__label {
+		font-size: 0.88rem;
+		font-weight: 500;
+		color: v.$color-dark;
+	}
+}
+
+// ── Pill badges (Ponuda / Potražnja) ─────────────────────────────────────────
+.nekoko-pill {
+	display: inline-block;
+	padding: 4px 14px;
+	border-radius: 20px;
+	font-size: 0.78rem;
+	font-weight: 600;
+
+	&--yellow {
+		background: v.$color-yellow;
+		color: v.$color-dark;
+	}
+
+	&--blue {
+		background: rgba(0, 70, 130, 0.1);
+		color: v.$color-blue;
+		border: 1px solid rgba(0, 70, 130, 0.2);
+	}
+}
+
+// ── Responsive ────────────────────────────────────────────────────────────────
+@include m.responsive(tablet) {
+	.nekoko-hp-hero {
+		padding: 60px 0 80px;
+
+		&__inner {
+			grid-template-columns: 1fr;
+			gap: 40px;
+			padding: 0 24px;
+		}
+
+		&__images {
+			order: -1;
+			margin-bottom: 20px;
+		}
+
+		&__badge {
+			bottom: -16px;
+			left: 12px;
+		}
+	}
+
+	.nekoko-hp-search {
+		&__inner {
+			flex-direction: column;
+			align-items: stretch;
+			padding: 0 24px;
+			gap: 24px;
+		}
+
+		&__text {
+			flex: none;
+		}
+
+		&__form {
+			flex-wrap: wrap;
+		}
+
+		&__input {
+			flex: 1 1 200px;
+		}
+	}
+
+	.nekoko-hp-preview {
+		&__inner {
+			grid-template-columns: 1fr;
+			gap: 40px;
+			padding: 0 24px;
+		}
+	}
+
+	.nekoko-hp-top-cats {
+		&__inner {
+			padding: 0 24px;
+		}
+	}
+}
+
+@include m.responsive(mobile) {
+	.nekoko-hp-hero {
+		&__inner {
+			padding: 0 16px;
+		}
+
+		&__heading {
+			font-size: 1.8rem;
+		}
+
+		&__buttons {
+			flex-direction: column;
+		}
+	}
+
+	.nekoko-hp-search__inner {
+		padding: 0 16px;
+	}
+
+	.nekoko-hp-preview__inner {
+		padding: 0 16px;
+	}
+
+	.nekoko-hp-top-cats__inner {
+		padding: 0 16px;
+	}
+
+	.nekoko-hp-top-cats__grid {
+		gap: 12px;
+	}
+
+	.nekoko-cat-card {
+		min-width: 90px;
+		padding: 20px 16px 16px;
+	}
+}

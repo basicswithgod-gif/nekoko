@@ -4,21 +4,22 @@
 .nekoko-footer {
 	background: v.$color-blue;
 	color: rgba(255, 255, 255, 0.8);
-	padding: 48px 20px 24px;
+	padding: 64px 20px 0;
 
 	&__inner {
 		display: grid;
-		grid-template-columns: 2fr 1fr 1fr;
+		grid-template-columns: 2fr 1fr 1fr 1fr;
 		gap: 48px;
 		max-width: 1200px;
 		margin: 0 auto;
 		align-items: start;
+		padding-bottom: 48px;
 	}
 
 	&__logo {
 		display: inline-flex;
 		align-items: center;
-		margin-bottom: 12px;
+		margin-bottom: 16px;
 
 		img {
 			display: block;
@@ -26,10 +27,37 @@
 		}
 	}
 
-	&__brand p {
+	&__brand {
+		p, &-tagline-default {
+			color: rgba(255, 255, 255, 0.65);
+			font-size: .875rem;
+			line-height: 1.6;
+			margin: 8px 0 0;
+		}
+	}
+
+	&__tagline {
+		.footer-tagline-widget p {
+			color: rgba(255, 255, 255, 0.65);
+			font-size: .875rem;
+			line-height: 1.6;
+			margin: 8px 0 0;
+		}
+	}
+
+	&__tagline-default {
 		color: rgba(255, 255, 255, 0.65);
 		font-size: .875rem;
+		line-height: 1.6;
 		margin: 8px 0 0;
+	}
+
+	&__col-heading {
+		color: #fff;
+		font-family: v.$font-heading;
+		font-size: 1.1rem;
+		font-weight: 700;
+		margin: 0 0 16px;
 	}
 
 	&__links {
@@ -38,10 +66,10 @@
 		margin: 0;
 		display: flex;
 		flex-direction: column;
-		gap: 8px;
+		gap: 10px;
 
 		a {
-			color: rgba(255, 255, 255, 0.75);
+			color: rgba(255, 255, 255, 0.7);
 			font-size: .875rem;
 			transition: color .2s;
 
@@ -51,23 +79,37 @@
 		}
 	}
 
-	&__meta {
-		font-size: .8rem;
-		color: rgba(255, 255, 255, 0.5);
-
-		p {
-			margin: 4px 0;
-		}
+	&__bottom {
+		border-top: 1px solid rgba(255, 255, 255, 0.12);
 	}
 
-	&__disclaimer {
-		font-style: italic;
+	&__bottom-inner {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 20px 20px;
+		text-align: center;
+
+		p {
+			color: rgba(255, 255, 255, 0.45);
+			font-size: .8rem;
+			margin: 0;
+		}
 	}
 }
 
 @include m.responsive(tablet) {
 	.nekoko-footer__inner {
-		grid-template-columns: 1fr;
+		grid-template-columns: 1fr 1fr;
 		gap: 32px;
+	}
+
+	.nekoko-footer__brand {
+		grid-column: 1 / -1;
+	}
+}
+
+@include m.responsive(mobile) {
+	.nekoko-footer__inner {
+		grid-template-columns: 1fr;
 	}
 }

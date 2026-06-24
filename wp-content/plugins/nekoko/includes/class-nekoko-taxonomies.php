@@ -21,6 +21,7 @@ class Nekoko_Taxonomies {
 		add_action( 'init', [ __CLASS__, 'register' ] );
 		add_action( 'init', [ __CLASS__, 'seed_terms' ], 20 );
 		add_filter( 'pre_insert_term', [ __CLASS__, 'enforce_case_insensitive_uniqueness' ], 10, 2 );
+		add_action( 'acf/init', [ __CLASS__, 'register_acf_image_fields' ] );
 	}
 
 	public static function register() {
@@ -104,6 +105,44 @@ class Nekoko_Taxonomies {
 				wp_insert_term( $term, self::TYPE );
 			}
 		}
+	}
+
+	/**
+	 * Register ACF image field for job_category and job_subcategory terms.
+	 * Access via: get_field('job_category_image', 'job_category_' . $term->term_id)
+	 */
+	public static function register_acf_image_fields() {
+		if ( ! function_exists( 'acf_add_local_field_group' ) ) {
+			return;
+		}
+
+		acf_add_local_field_group( [
+			'key'    => 'group_nekoko_taxonomy_image',
+			'title'  => 'Slika kategorije',
+			'fields' => [
+				[
+					'key'           => 'field_nekoko_job_category_image',
+					'label'         => 'Slika / ikonica kategorije',
+					'name'          => 'job_category_image',
+					'type'          => 'image',
+					'return_format' => 'array',
+					'preview_size'  => 'thumbnail',
+					'instructions'  => 'Preporučena veličina: 80×80px. Prikazuje se u sekcijama "Top kategorije" na početnoj stranici.',
+				],
+			],
+			'location' => [
+				[ [
+					'param'    => 'taxonomy',
+					'operator' => '==',
+					'value'    => self::CATEGORY,
+				] ],
+				[ [
+					'param'    => 'taxonomy',
+					'operator' => '==',
+					'value'    => self::SUBCATEGORY,
+				] ],
+			],
+		] );
 	}
 
 	/**

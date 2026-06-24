@@ -61,3 +61,7 @@ add_action(
 	},
 	999
 );
+
+add_filter( 'hello_elementor_page_title', function ( $show ) {
+	return is_front_page() ? false : $show;
+} );

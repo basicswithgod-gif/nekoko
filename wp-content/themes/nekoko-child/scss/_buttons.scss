@@ -11,6 +11,58 @@
 		transform: translateY(-1px);
 	}
 
+	&--outline {
+		background: transparent !important;
+		border: 2px solid v.$color-blue;
+		color: v.$color-blue !important;
+
+		&:hover {
+			background: v.$color-blue !important;
+			color: #fff !important;
+		}
+	}
+
+	&--outline-white {
+		background: transparent !important;
+		border: 2px solid rgba(255, 255, 255, 0.7);
+		color: #fff !important;
+		padding: 10px 22px;
+
+		&:hover {
+			background: rgba(255, 255, 255, 0.12) !important;
+			border-color: #fff;
+		}
+	}
+
+	&--accent {
+		background: v.$color-yellow !important;
+		color: v.$color-dark !important;
+		font-weight: 700;
+
+		&:hover {
+			background: #d99e1c !important;
+		}
+	}
+
+	&--red {
+		background: v.$color-red !important;
+		color: #fff !important;
+
+		&:hover {
+			background: #9e3330 !important;
+		}
+	}
+
+	&--yellow {
+		background: v.$color-yellow !important;
+		color: v.$color-dark !important;
+		font-weight: 700;
+
+		&:hover {
+			background: #d99e1c !important;
+		}
+	}
+
 	&--block {
 		width: 100%;
 		text-align: center;
@@ -19,6 +71,7 @@
 	}
 }
 
+// standalone variants (used outside the .nekoko-btn base)
 .nekoko-btn-outline {
 	@include m.button-base;
 	background: transparent;
@@ -39,7 +92,7 @@
 	font-weight: 700;
 
 	&:hover {
-		background: #d99e20;
+		background: #d99e1c;
 	}
 }
 

@@ -30,6 +30,10 @@ defined( 'ABSPATH' ) || exit;
 			<label>Email adresa *</label>
 			<input type="email" name="nekoko_email" value="<?php echo esc_attr( $vals['email'] ); ?>" required placeholder="vas@email.com">
 		</div>
+		<div class="form-group">
+			<label>Grad / lokacija *</label>
+			<input type="text" name="nekoko_location" value="<?php echo esc_attr( $vals['location'] ); ?>" required placeholder="npr. Beograd, Novi Sad, Niš...">
+		</div>
 		<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
 			<div class="form-group">
 				<label>Lozinka * <span style="font-size:.8rem;color:#666;">(min. 8 karaktera)</span></label>
