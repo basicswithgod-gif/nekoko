@@ -24,7 +24,7 @@
 
 	&--outline-white {
 		background: transparent !important;
-		border: 2px solid rgba(255, 255, 255, 0.7);
+		border: 2px solid #fff;
 		color: #fff !important;
 		padding: 10px 22px;
 
@@ -131,6 +131,19 @@
 	&:hover {
 		background: v.$color-blue !important;
 		color: #fff !important;
+	}
+}
+
+.wp-block-button.nekoko-btn--outline-white > .wp-block-button__link {
+	@include m.button-base;
+	background: transparent !important;
+	border: 2px solid #fff;
+	color: #fff !important;
+	text-decoration: none;
+
+	&:hover {
+		background: rgba(255, 255, 255, 0.12) !important;
+		border-color: #fff;
 	}
 }
 
