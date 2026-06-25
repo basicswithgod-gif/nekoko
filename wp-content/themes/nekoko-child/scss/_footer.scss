@@ -2,10 +2,10 @@
 @use 'mixins' as m;
 
 .nekoko-footer {
-	background: #fff;
-	color: v.$color-dark;
+	background: #004682 !important;
+	color: rgba(255, 255, 255, 0.85);
 	padding: 64px 20px 0;
-	border-top: 1px solid #e8e8e8;
+	border-top: none;
 
 	&__inner {
 		display: grid;
@@ -31,7 +31,7 @@
 
 	&__brand {
 		p, &-tagline-default {
-			color: #666;
+			color: rgba(255, 255, 255, 0.6);
 			font-size: .875rem;
 			line-height: 1.6;
 			margin: 8px 0 0;
@@ -40,7 +40,7 @@
 
 	&__tagline {
 		.footer-tagline-widget p {
-			color: #666;
+			color: rgba(255, 255, 255, 0.6);
 			font-size: .875rem;
 			line-height: 1.6;
 			margin: 8px 0 0;
@@ -48,14 +48,14 @@
 	}
 
 	&__tagline-default {
-		color: #666;
+		color: rgba(255, 255, 255, 0.6);
 		font-size: .875rem;
 		line-height: 1.6;
 		margin: 8px 0 0;
 	}
 
 	&__col-heading {
-		color: v.$color-blue;
+		color: #fff;
 		font-family: v.$font-heading;
 		font-size: 1.1rem;
 		font-weight: 700;
@@ -71,18 +71,18 @@
 		gap: 10px;
 
 		a {
-			color: #555;
+			color: rgba(255, 255, 255, 0.75);
 			font-size: .875rem;
 			transition: color .2s;
 
 			&:hover {
-				color: v.$color-blue;
+				color: #fff;
 			}
 		}
 	}
 
 	&__bottom {
-		border-top: 1px solid #e8e8e8;
+		border-top: 1px solid rgba(255, 255, 255, 0.12);
 	}
 
 	&__bottom-inner {
@@ -92,7 +92,7 @@
 		text-align: center;
 
 		p {
-			color: #999;
+			color: rgba(255, 255, 255, 0.5);
 			font-size: .8rem;
 			margin: 0;
 		}
