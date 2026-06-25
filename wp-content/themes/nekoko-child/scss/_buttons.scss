@@ -134,6 +134,28 @@
 	}
 }
 
+// Combined selector (wrapper has nekoko-btn + nekoko-btn--outline): strip WP default
+// border from the wrapper, put the sole border on the inner link only.
+.wp-block-button.nekoko-btn.nekoko-btn--outline {
+	border: none !important;
+	box-shadow: none !important;
+}
+
+.wp-block-button.nekoko-btn.nekoko-btn--outline .wp-block-button__link {
+	@include m.button-base;
+	border: 2px solid v.$color-blue !important;
+	color: v.$color-blue !important;
+	background: transparent !important;
+	box-shadow: none !important;
+	text-decoration: none;
+
+	&:hover {
+		background: v.$color-blue !important;
+		color: #fff !important;
+		border-color: v.$color-blue !important;
+	}
+}
+
 .wp-block-button.nekoko-btn--outline-white > .wp-block-button__link {
 	@include m.button-base;
 	background: transparent !important;
