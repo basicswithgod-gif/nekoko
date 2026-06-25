@@ -53,13 +53,13 @@ class Nekoko_Blocks {
 		acf_register_block_type( [
 			'name'            => 'nekoko-hero',
 			'title'           => 'Hero — Početna',
-			'description'     => 'Hero sekcija početne stranice: eyebrow, H1, paragraf, 2 CTA dugmeta, 2×2 grid slika, badge.',
+			'description'     => 'Hero sekcija početne stranice. Kliknite bilo koji element unutra da ga editujete.',
 			'render_template' => NEKOKO_PATH . 'blocks/hero/render.php',
 			'category'        => 'nekoko',
 			'icon'            => 'cover-image',
 			'keywords'        => [ 'hero', 'homepage', 'banner' ],
-			'mode'            => 'edit',
-			'supports'        => [ 'align' => false, 'jsx' => false ],
+			'mode'            => 'preview',
+			'supports'        => [ 'align' => false, 'jsx' => true ],
 		] );
 
 		acf_register_block_type( [
@@ -77,13 +77,13 @@ class Nekoko_Blocks {
 		acf_register_block_type( [
 			'name'            => 'nekoko-offer-preview',
 			'title'           => 'Offer Preview — Početna',
-			'description'     => 'Istaknite ponudu: levo tekst+CTA, desno job kartice (Ponuda tip).',
+			'description'     => 'Levo: tekst+CTA (kliknite da editujete). Desno: live Ponuda kartice iz CPT.',
 			'render_template' => NEKOKO_PATH . 'blocks/offer-preview/render.php',
 			'category'        => 'nekoko',
 			'icon'            => 'list-view',
 			'keywords'        => [ 'offer', 'ponuda', 'jobs' ],
-			'mode'            => 'edit',
-			'supports'        => [ 'align' => false ],
+			'mode'            => 'preview',
+			'supports'        => [ 'align' => false, 'jsx' => true ],
 		] );
 
 		acf_register_block_type( [
@@ -101,13 +101,13 @@ class Nekoko_Blocks {
 		acf_register_block_type( [
 			'name'            => 'nekoko-request-preview',
 			'title'           => 'Request Preview — Početna',
-			'description'     => 'Recite šta vam treba: levo job kartice (Potražnja tip), desno tekst+CTA.',
+			'description'     => 'Levo: live Potražnja kartice iz CPT. Desno: tekst+CTA (kliknite da editujete).',
 			'render_template' => NEKOKO_PATH . 'blocks/request-preview/render.php',
 			'category'        => 'nekoko',
 			'icon'            => 'list-view',
 			'keywords'        => [ 'request', 'potraznja', 'jobs' ],
-			'mode'            => 'edit',
-			'supports'        => [ 'align' => false ],
+			'mode'            => 'preview',
+			'supports'        => [ 'align' => false, 'jsx' => true ],
 		] );
 	}
 

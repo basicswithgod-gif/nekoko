@@ -8,6 +8,49 @@
 	padding: 0 40px;
 }
 
+// ── Reset WordPress core block defaults inside NekoKo homepage sections ──────
+.nekoko-hp-hero,
+.nekoko-hp-preview {
+
+	// Groups provide layout only — no extra spacing
+	.wp-block-group {
+		padding: 0;
+		margin: 0;
+	}
+
+	// Images: strip WP defaults so our __img-wrap CSS controls everything
+	.wp-block-image {
+		margin: 0;
+		padding: 0;
+		max-width: none;
+
+		figcaption { display: none; }
+
+		img {
+			display: block;
+			height: 100%;
+			width: 100%;
+			object-fit: cover;
+		}
+	}
+
+	// Buttons wrapper — keep flex but neutralise WP margin
+	.wp-block-buttons {
+		margin-top: 0;
+		margin-bottom: 0;
+		gap: 12px;
+		flex-wrap: wrap;
+	}
+
+	.wp-block-button { margin: 0; }
+
+	// Headings — strip WP's default margin so BEM rules win
+	.wp-block-heading { margin-top: 0; }
+
+	// Paragraphs
+	p { margin-top: 0; }
+}
+
 // ── Hero (Section 1) ─────────────────────────────────────────────────────────
 .nekoko-hp-hero {
 	background: v.$color-cream;

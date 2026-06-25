@@ -1,16 +1,23 @@
 <?php
 /**
  * Block render: acf/nekoko-request-preview
- * Left: Potražnja job cards (or placeholders). Right: heading + paragraph + CTA.
+ * Left: live Potražnja cards queried from CPT.
+ * Right: InnerBlocks (heading + paragraph + CTA — directly editable in Gutenberg).
  */
 defined( 'ABSPATH' ) || exit;
 
-$heading    = get_field( 'request_heading' )   ?: 'Recite šta vam treba';
-$paragraph  = get_field( 'request_paragraph' ) ?: 'Kada tražite nešto van standardnih oglasa, važni su jasnoća, poverenje i dobar opis. Zato je potražnja na NekoKo jednostavna i pregledna.';
-$btn_label  = get_field( 'request_btn_label' ) ?: 'Objavite potražnju';
-$btn_url    = get_field( 'request_btn_url' )   ?: '/postavi-potraznju/';
 $card_count = max( 1, min( 6, intval( get_field( 'request_card_count' ) ?: 3 ) ) );
 
+$template = wp_json_encode( [
+	[ 'core/paragraph', [ 'className' => 'nekoko-hp-preview__eyebrow nekoko-hp-preview__eyebrow--red', 'content' => 'POTRAŽNJA' ] ],
+	[ 'core/heading',   [ 'level' => 2, 'className' => 'nekoko-hp-preview__heading', 'content' => 'Recite šta vam treba' ] ],
+	[ 'core/paragraph', [ 'className' => 'nekoko-hp-preview__paragraph', 'content' => 'Kada tražite nešto van standardnih oglasa, važni su jasnoća, poverenje i dobar opis. Zato je potražnja na NekoKo jednostavna i pregledna.' ] ],
+	[ 'core/buttons', [], [
+		[ 'core/button', [ 'text' => 'Objavite potražnju', 'url' => '/postavi-potraznju/', 'className' => 'nekoko-btn nekoko-btn--yellow' ] ],
+	] ],
+] );
+
+// --- dynamic cards ---
 $potraznja_term = get_term_by( 'name', 'Potražnja', Nekoko_Taxonomies::TYPE );
 $args = [
 	'post_type'      => Nekoko_CPT::POST_TYPE,
@@ -20,19 +27,19 @@ $args = [
 	'order'          => 'DESC',
 ];
 if ( $potraznja_term ) {
-	$args['tax_query'] = [ [
+	$args['tax_query'] = [ [ [
 		'taxonomy' => Nekoko_Taxonomies::TYPE,
 		'field'    => 'term_id',
 		'terms'    => $potraznja_term->term_id,
-	] ];
+	] ] ];
 }
 $query            = new WP_Query( $args );
 $use_placeholders = ! $query->have_posts();
 
 $placeholders = [
-	[ 'title' => 'Tražim nekoga za preseljenje biljaka i kućnih rasada u nove saksije',   'city' => 'Beograd', 'price' => 3000, 'category' => 'Pomoć'    ],
-	[ 'title' => 'Potrebna osoba za vožnju do veterinara', 'city' => 'Zaječar', 'price' => 1800, 'category' => 'Ljubimci' ],
-	[ 'title' => 'Tražim nekoga za mini radionicu',        'city' => 'Online',  'price' => 0,    'category' => 'Zdravlje' ],
+	[ 'title' => 'Tražim nekoga za preseljenje biljaka i kućnih rasada u nove saksije', 'city' => 'Beograd', 'price' => 3000, 'category' => 'Pomoć'    ],
+	[ 'title' => 'Potrebna osoba za vožnju do veterinara',                               'city' => 'Zaječar', 'price' => 1800, 'category' => 'Ljubimci' ],
+	[ 'title' => 'Tražim nekoga za mini radionicu',                                      'city' => 'Online',  'price' => 0,    'category' => 'Zdravlje' ],
 ];
 ?>
 <section class="nekoko-hp-preview nekoko-hp-preview--request">
@@ -85,12 +92,7 @@ $placeholders = [
 		</div>
 
 		<div class="nekoko-hp-preview__content">
-			<span class="nekoko-hp-preview__eyebrow nekoko-hp-preview__eyebrow--red">POTRAŽNJA</span>
-			<h2 class="nekoko-hp-preview__heading"><?php echo esc_html( $heading ); ?></h2>
-			<p class="nekoko-hp-preview__paragraph"><?php echo esc_html( $paragraph ); ?></p>
-			<a href="<?php echo esc_url( $btn_url ); ?>" class="nekoko-btn nekoko-btn--yellow">
-				<?php echo esc_html( $btn_label ); ?>
-			</a>
+			<InnerBlocks template='<?php echo esc_attr( $template ); ?>' templateLock="false" />
 		</div>
 
 	</div>

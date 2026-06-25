@@ -1,16 +1,23 @@
 <?php
 /**
  * Block render: acf/nekoko-offer-preview
- * Left: heading + paragraph + CTA. Right: Ponuda job cards (or placeholders).
+ * Left: InnerBlocks (heading + paragraph + CTA — directly editable in Gutenberg).
+ * Right: live Ponuda cards queried from CPT.
  */
 defined( 'ABSPATH' ) || exit;
 
-$heading    = get_field( 'offer_heading' )   ?: 'Istaknite ono što nudite';
-$paragraph  = get_field( 'offer_paragraph' ) ?: 'Od čuvanja egzotičnih ljubimaca do kreativnih radionica, NekoKo daje prostor uslugama koje su korisne, neobične i ljudima zaista trebaju.';
-$btn_label  = get_field( 'offer_btn_label' ) ?: 'Objavite ponudu';
-$btn_url    = get_field( 'offer_btn_url' )   ?: '/postavi-oglas/';
 $card_count = max( 1, min( 6, intval( get_field( 'offer_card_count' ) ?: 3 ) ) );
 
+$template = wp_json_encode( [
+	[ 'core/paragraph', [ 'className' => 'nekoko-hp-preview__eyebrow', 'content' => 'PONUDA' ] ],
+	[ 'core/heading',   [ 'level' => 2, 'className' => 'nekoko-hp-preview__heading', 'content' => 'Istaknite ono što nudite' ] ],
+	[ 'core/paragraph', [ 'className' => 'nekoko-hp-preview__paragraph', 'content' => 'Od čuvanja egzotičnih ljubimaca do kreativnih radionica, NekoKo daje prostor uslugama koje su korisne, neobične i ljudima zaista trebaju.' ] ],
+	[ 'core/buttons', [], [
+		[ 'core/button', [ 'text' => 'Objavite ponudu', 'url' => '/postavi-oglas/', 'className' => 'nekoko-btn' ] ],
+	] ],
+] );
+
+// --- dynamic cards ---
 $ponuda_term = get_term_by( 'name', 'Ponuda', Nekoko_Taxonomies::TYPE );
 $args = [
 	'post_type'      => Nekoko_CPT::POST_TYPE,
@@ -20,31 +27,26 @@ $args = [
 	'order'          => 'DESC',
 ];
 if ( $ponuda_term ) {
-	$args['tax_query'] = [ [
+	$args['tax_query'] = [ [ [
 		'taxonomy' => Nekoko_Taxonomies::TYPE,
 		'field'    => 'term_id',
 		'terms'    => $ponuda_term->term_id,
-	] ];
+	] ] ];
 }
 $query            = new WP_Query( $args );
 $use_placeholders = ! $query->have_posts();
 
 $placeholders = [
-	[ 'title' => 'Čuvanje i nega egzotičnih kućnih ljubimaca tokom vikenda',        'city' => 'Beograd',  'price' => 2500, 'category' => 'Ljubimci' ],
-	[ 'title' => 'Privatni čas ishrane i mršavljenja', 'city' => 'Novi Sad', 'price' => 4200, 'category' => 'Ishrana'  ],
-	[ 'title' => 'Oslikavanje zida u dečjoj sobi', 'city' => 'Niš',    'price' => 8000, 'category' => 'Umetnost' ],
+	[ 'title' => 'Čuvanje i nega egzotičnih kućnih ljubimaca tokom vikenda', 'city' => 'Beograd',  'price' => 2500, 'category' => 'Ljubimci' ],
+	[ 'title' => 'Privatni čas ishrane i mršavljenja',                       'city' => 'Novi Sad', 'price' => 4200, 'category' => 'Ishrana'  ],
+	[ 'title' => 'Oslikavanje zida u dečjoj sobi',                           'city' => 'Niš',      'price' => 8000, 'category' => 'Umetnost' ],
 ];
 ?>
 <section class="nekoko-hp-preview nekoko-hp-preview--offer">
 	<div class="nekoko-hp-preview__inner">
 
 		<div class="nekoko-hp-preview__content">
-			<span class="nekoko-hp-preview__eyebrow">PONUDA</span>
-			<h2 class="nekoko-hp-preview__heading"><?php echo esc_html( $heading ); ?></h2>
-			<p class="nekoko-hp-preview__paragraph"><?php echo esc_html( $paragraph ); ?></p>
-			<a href="<?php echo esc_url( $btn_url ); ?>" class="nekoko-btn">
-				<?php echo esc_html( $btn_label ); ?>
-			</a>
+			<InnerBlocks template='<?php echo esc_attr( $template ); ?>' templateLock="false" />
 		</div>
 
 		<div class="nekoko-hp-preview__cards">

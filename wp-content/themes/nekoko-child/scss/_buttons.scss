@@ -105,3 +105,44 @@
 		background: #003568;
 	}
 }
+
+// core/button blocks inside InnerBlocks — class applied to outer div wrapper
+.wp-block-button.nekoko-btn > .wp-block-button__link {
+	@include m.button-base;
+	background: v.$color-blue !important;
+	color: #fff !important;
+	border: none;
+	text-decoration: none;
+
+	&:hover {
+		background: #003568 !important;
+		transform: translateY(-1px);
+		color: #fff !important;
+	}
+}
+
+.wp-block-button.nekoko-btn--outline > .wp-block-button__link {
+	@include m.button-base;
+	background: transparent !important;
+	border: 2px solid v.$color-blue;
+	color: v.$color-blue !important;
+	text-decoration: none;
+
+	&:hover {
+		background: v.$color-blue !important;
+		color: #fff !important;
+	}
+}
+
+.wp-block-button.nekoko-btn--yellow > .wp-block-button__link {
+	@include m.button-base;
+	background: v.$color-yellow !important;
+	color: v.$color-dark !important;
+	border: none;
+	font-weight: 700;
+	text-decoration: none;
+
+	&:hover {
+		background: #d99e1c !important;
+	}
+}
