@@ -144,15 +144,15 @@
 .wp-block-button.nekoko-btn.nekoko-btn--outline .wp-block-button__link {
 	@include m.button-base;
 	background: transparent !important;
-	border: 2px solid #2E2E2E !important;
-	color: #2E2E2E !important;
+	border: 2px solid #004682 !important;
+	color: #004682 !important;
 	box-shadow: none !important;
 	text-decoration: none;
 
 	&:hover {
-		background: rgba(46, 46, 46, 0.08) !important;
-		color: #2E2E2E !important;
-		border-color: #2E2E2E !important;
+		background: #004682 !important;
+		color: #fff !important;
+		border-color: #004682 !important;
 	}
 }
 
