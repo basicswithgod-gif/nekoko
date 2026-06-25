@@ -652,7 +652,7 @@
 	display: flex;
 	gap: 8px;
 	align-items: center;
-	flex-wrap: wrap;
+	flex-wrap: nowrap;
 }
 
 .nekoko-search-input {
@@ -678,7 +678,8 @@
 	padding: 0 16px;
 	font-size: 14px;
 	font-family: v.$font-body;
-	min-width: 160px;
+	flex: 0 0 160px;
+	width: 160px;
 	background: #fff;
 	color: v.$color-dark;
 	cursor: pointer;
