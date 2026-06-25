@@ -6,7 +6,7 @@ defined( 'ABSPATH' ) || exit;
 
 		<div class="nekoko-footer__brand">
 			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="nekoko-footer__logo">
-				<img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/logo-nekoko-light.svg' ); ?>"
+				<img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/logo-nekoko-dark.png' ); ?>"
 				     alt="NekoKo.rs" width="120" height="36">
 			</a>
 			<?php if ( is_active_sidebar( 'footer-tagline' ) ) : ?>

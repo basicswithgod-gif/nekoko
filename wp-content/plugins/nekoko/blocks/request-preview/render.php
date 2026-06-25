@@ -56,7 +56,7 @@ $placeholders = [
 								<span class="nekoko-hp-card__city">📍 <?php echo esc_html( $city ); ?></span>
 								<span class="nekoko-hp-card__price nekoko-hp-card__price--red">
 									<?php echo $price > 0
-										? esc_html( number_format( $price, 0, '.', '.' ) ) . ' din'
+										? esc_html( number_format( $price, 0, '.', '.' ) ) . ' RSD'
 										: 'Po dogovoru'; ?>
 								</span>
 							</div>
@@ -74,7 +74,7 @@ $placeholders = [
 								<span class="nekoko-hp-card__city">📍 <?php echo esc_html( $ph['city'] ); ?></span>
 								<span class="nekoko-hp-card__price nekoko-hp-card__price--red">
 									<?php echo $ph['price'] > 0
-										? esc_html( number_format( $ph['price'], 0, '.', '.' ) ) . ' din'
+										? esc_html( number_format( $ph['price'], 0, '.', '.' ) ) . ' RSD'
 										: 'Po dogovoru'; ?>
 								</span>
 							</div>
