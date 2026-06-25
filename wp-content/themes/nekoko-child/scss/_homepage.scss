@@ -480,10 +480,11 @@
 // ── Pill badges (Ponuda / Potražnja) ─────────────────────────────────────────
 .nekoko-pill {
 	display: inline-block;
-	padding: 4px 14px;
+	padding: 4px 12px;
 	border-radius: 20px;
 	font-size: 0.78rem;
 	font-weight: 600;
+	margin-bottom: 0;
 
 	&--yellow {
 		background: v.$color-yellow;
@@ -491,9 +492,252 @@
 	}
 
 	&--blue {
-		background: rgba(0, 70, 130, 0.1);
+		background: #fff;
 		color: v.$color-blue;
-		border: 1px solid rgba(0, 70, 130, 0.2);
+		border: 1px solid #CFCFCF;
+	}
+
+	&--red {
+		background: #fff;
+		color: v.$color-red;
+		border: 1px solid #CFCFCF;
+	}
+}
+
+// ── Native Gutenberg Homepage (v2) ───────────────────────────────────────────
+
+// Homepage main element
+.nekoko-homepage {
+	padding: 0;
+	margin: 0;
+
+	// Remove top margin WP sometimes adds to first block
+	> .wp-block-group:first-child {
+		margin-top: 0;
+	}
+}
+
+// Section inner container (max-width constraint + horizontal padding)
+.nekoko-section-inner {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 40px;
+	box-sizing: border-box;
+}
+
+.nekoko-section-center {
+	text-align: center;
+}
+
+// Typography — Crimson Pro headings
+.nekoko-hp-h1 {
+	font-family: 'Crimson Pro', serif;
+	font-size: clamp(2rem, 3.8vw, 52px);
+	font-weight: 800;
+	color: v.$color-dark;
+	line-height: 1.15;
+}
+
+.nekoko-hp-h2 {
+	font-family: 'Crimson Pro', serif;
+	font-size: clamp(1.8rem, 3vw, 36px);
+	font-weight: 800;
+	color: v.$color-dark;
+	line-height: 1.1;
+}
+
+.nekoko-hp-h2-sm {
+	font-family: 'Crimson Pro', serif;
+	font-size: clamp(1.6rem, 2.5vw, 32px);
+	font-weight: 700;
+	color: v.$color-dark;
+}
+
+// Cards container (white box wrapping job cards)
+.nekoko-cards-wrap {
+	display: flex !important;
+	flex-direction: column;
+	gap: 12px;
+
+	> .wp-block-group,
+	> .wp-block-columns {
+		margin-top: 0 !important;
+		margin-bottom: 0 !important;
+	}
+}
+
+// Individual job card
+.nekoko-job-card {
+	.wp-block-columns {
+		margin-top: 0 !important;
+		margin-bottom: 0 !important;
+	}
+
+	.wp-block-column {
+		flex: 1;
+		padding: 0;
+	}
+}
+
+// Category label pill inside cards
+.nekoko-label {
+	display: inline-block;
+	font-size: 11px !important;
+	font-weight: 600 !important;
+	padding: 3px 8px !important;
+	border-radius: 12px !important;
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+	line-height: 1.4;
+}
+
+.pill-ljubimci  { background: #E8F4FD !important; color: #004682 !important; }
+.pill-ishrana   { background: #FFF3E0 !important; color: #E65100 !important; }
+.pill-zdravlje  { background: #E8F5E9 !important; color: #2E7D32 !important; }
+.pill-lepota    { background: #FCE4EC !important; color: #880E4F !important; }
+.pill-pomoc     { background: #EDE7F6 !important; color: #4527A0 !important; }
+.pill-zabava    { background: #FFF8E1 !important; color: #F57F17 !important; }
+.pill-zivotinje { background: #FFF3E0 !important; color: #E65100 !important; }
+.pill-umetnost  { background: #F3E5F5 !important; color: #6A1B9A !important; }
+
+// Card title
+.nekoko-card-title {
+	font-family: v.$font-body !important;
+	font-size: 0.95rem !important;
+	font-weight: 600 !important;
+	color: v.$color-dark !important;
+	line-height: 1.35;
+}
+
+// Category icon cards (S4, S6)
+.nekoko-cat-block {
+	background: #fff;
+	border: 1.5px solid #EDEDED;
+	border-radius: 12px;
+	padding: 24px 16px 20px;
+	text-align: center;
+	transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+	cursor: pointer;
+
+	&:hover {
+		border-color: v.$color-yellow;
+		box-shadow: v.$shadow;
+		transform: translateY(-3px);
+	}
+
+	.wp-block-image {
+		margin: 0 auto;
+		display: block;
+		width: 52px;
+		height: 52px;
+
+		img {
+			width: 52px;
+			height: 52px;
+			object-fit: contain;
+		}
+	}
+
+	p {
+		font-size: 0.88rem !important;
+		font-weight: 500 !important;
+		color: v.$color-dark !important;
+		margin-top: 8px !important;
+		margin-bottom: 0 !important;
+	}
+}
+
+// Search form (S2)
+.nekoko-search-form {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.nekoko-search-input {
+	height: 48px;
+	border: 1px solid v.$color-gray;
+	border-radius: v.$radius;
+	padding: 0 16px;
+	font-size: 15px;
+	font-family: v.$font-body;
+	flex: 1;
+	min-width: 180px;
+	outline: none;
+	color: v.$color-dark;
+
+	&:focus { border-color: v.$color-blue; }
+	&::placeholder { color: #aaa; }
+}
+
+.nekoko-search-select {
+	height: 48px;
+	border: 1px solid v.$color-gray;
+	border-radius: v.$radius;
+	padding: 0 16px;
+	font-size: 14px;
+	font-family: v.$font-body;
+	min-width: 160px;
+	background: #fff;
+	color: v.$color-dark;
+	cursor: pointer;
+	appearance: none;
+}
+
+.nekoko-search-btn {
+	background: v.$color-red !important;
+	color: #fff !important;
+	height: 48px;
+	padding: 0 24px;
+	border-radius: v.$radius;
+	font-size: 15px;
+	font-weight: 600 !important;
+	border: none !important;
+	cursor: pointer;
+	font-family: v.$font-body;
+	white-space: nowrap;
+}
+
+// WP button base reset
+.wp-block-button__link {
+	border-radius: 6px !important;
+}
+
+// Full-width group alignment fix (hello-elementor)
+.nekoko-homepage .wp-block-group.alignfull {
+	width: 100%;
+	max-width: 100%;
+}
+
+// Responsive
+@include m.responsive(tablet) {
+	.nekoko-section-inner {
+		padding: 0 24px;
+	}
+
+	.nekoko-hp-h1 { font-size: 2.2rem; }
+	.nekoko-hp-h2 { font-size: 1.9rem; }
+	.nekoko-hp-h2-sm { font-size: 1.7rem; }
+}
+
+@include m.responsive(mobile) {
+	.nekoko-section-inner {
+		padding: 0 16px;
+	}
+
+	.nekoko-hp-h1 { font-size: 1.8rem; }
+
+	.nekoko-search-form {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.nekoko-search-input,
+	.nekoko-search-select,
+	.nekoko-search-btn {
+		width: 100%;
+		min-width: 0;
 	}
 }
 
