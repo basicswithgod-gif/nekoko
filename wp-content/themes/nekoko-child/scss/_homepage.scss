@@ -269,6 +269,18 @@
 
 	&--request {
 		background: v.$color-cream;
+
+		.nekoko-cards-wrap {
+			display: grid !important;
+			flex-direction: unset;
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: auto auto;
+			gap: 12px;
+		}
+
+		.nekoko-job-card:nth-child(3) {
+			grid-column: 1 / -1;
+		}
 	}
 
 	&__inner {
