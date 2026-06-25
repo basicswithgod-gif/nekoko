@@ -660,6 +660,10 @@
 }
 
 // Search form (S2)
+.nekoko-hp-search-section .wp-block-columns {
+	align-items: center;
+}
+
 .nekoko-search-form {
 	display: flex;
 	gap: 8px;
