@@ -217,6 +217,11 @@
 
 	&--offer {
 		background: v.$color-light;
+
+		.nekoko-hp-preview__cards {
+			.nekoko-hp-card:first-child { grid-column: span 2; }
+			.nekoko-hp-card:last-child  { grid-column: span 1; }
+		}
 	}
 
 	&--request {
@@ -300,6 +305,7 @@
 
 	&__category {
 		display: inline-block;
+		align-self: flex-start;
 		font-size: 0.72rem;
 		font-weight: 700;
 		letter-spacing: 0.04em;
