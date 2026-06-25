@@ -1,6 +1,11 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
+// Higher-specificity override — beats any single-class rule loaded after child theme CSS
+footer.nekoko-footer {
+	background: #004682 !important;
+}
+
 .nekoko-footer {
 	background: #004682 !important;
 	color: rgba(255, 255, 255, 0.85);
