@@ -14,8 +14,8 @@ defined( 'ABSPATH' ) || exit;
 <header id="nekoko-site-header" class="nekoko-site-header">
 	<div class="nekoko-site-header__inner">
 		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="nekoko-site-header__logo">
-			<img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/profile-nekoko.png' ); ?>"
-				alt="NekoKo.rs" height="52" width="52">
+			<img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/logo-nekoko-light.svg' ); ?>"
+				alt="NekoKo.rs" width="148" height="45">
 		</a>
 		<button class="nekoko-site-header__hamburger"
 			aria-expanded="false"

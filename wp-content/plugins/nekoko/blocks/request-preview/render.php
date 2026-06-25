@@ -30,9 +30,9 @@ $query            = new WP_Query( $args );
 $use_placeholders = ! $query->have_posts();
 
 $placeholders = [
-	[ 'title' => 'Tražim nekoga za preseljenje biljaka',   'city' => 'Beograd', 'price' => 3000, 'category' => 'POMOĆ'    ],
-	[ 'title' => 'Potrebna osoba za vožnju do veterinara', 'city' => 'Zaječar', 'price' => 1800, 'category' => 'LJUBIMCI' ],
-	[ 'title' => 'Tražim nekoga za mini radionicu',        'city' => 'Online',  'price' => 0,    'category' => 'ZDRAVLJE' ],
+	[ 'title' => 'Tražim nekoga za preseljenje biljaka i kućnih rasada u nove saksije',   'city' => 'Beograd', 'price' => 3000, 'category' => 'Pomoć'    ],
+	[ 'title' => 'Potrebna osoba za vožnju do veterinara', 'city' => 'Zaječar', 'price' => 1800, 'category' => 'Ljubimci' ],
+	[ 'title' => 'Tražim nekoga za mini radionicu',        'city' => 'Online',  'price' => 0,    'category' => 'Zdravlje' ],
 ];
 ?>
 <section class="nekoko-hp-preview nekoko-hp-preview--request">
@@ -43,7 +43,7 @@ $placeholders = [
 				<?php while ( $query->have_posts() ) :
 					$query->the_post();
 					$cats     = get_the_terms( get_the_ID(), Nekoko_Taxonomies::CATEGORY );
-					$cat_name = $cats && ! is_wp_error( $cats ) ? strtoupper( $cats[0]->name ) : '';
+					$cat_name = $cats && ! is_wp_error( $cats ) ? ucfirst( strtolower( $cats[0]->name ) ) : '';
 					$cities   = get_the_terms( get_the_ID(), Nekoko_Taxonomies::CITY );
 					$city     = $cities && ! is_wp_error( $cities ) ? $cities[0]->name : '';
 					$price    = get_post_meta( get_the_ID(), '_nekoko_price', true );

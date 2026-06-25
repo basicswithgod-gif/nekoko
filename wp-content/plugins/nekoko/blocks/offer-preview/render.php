@@ -30,9 +30,9 @@ $query            = new WP_Query( $args );
 $use_placeholders = ! $query->have_posts();
 
 $placeholders = [
-	[ 'title' => 'Čuvanje psa za vikend',        'city' => 'Beograd',  'price' => 2500, 'category' => 'LJUBIMCI' ],
-	[ 'title' => 'Privatni čas ishrane i mršavljenja', 'city' => 'Novi Sad', 'price' => 4200, 'category' => 'ISHRANA'  ],
-	[ 'title' => 'Oslikavanje zida u dečjoj sobi', 'city' => 'Niš',    'price' => 8000, 'category' => 'UMETNOST' ],
+	[ 'title' => 'Čuvanje i nega egzotičnih kućnih ljubimaca tokom vikenda',        'city' => 'Beograd',  'price' => 2500, 'category' => 'Ljubimci' ],
+	[ 'title' => 'Privatni čas ishrane i mršavljenja', 'city' => 'Novi Sad', 'price' => 4200, 'category' => 'Ishrana'  ],
+	[ 'title' => 'Oslikavanje zida u dečjoj sobi', 'city' => 'Niš',    'price' => 8000, 'category' => 'Umetnost' ],
 ];
 ?>
 <section class="nekoko-hp-preview nekoko-hp-preview--offer">
@@ -52,7 +52,7 @@ $placeholders = [
 				<?php while ( $query->have_posts() ) :
 					$query->the_post();
 					$cats     = get_the_terms( get_the_ID(), Nekoko_Taxonomies::CATEGORY );
-					$cat_name = $cats && ! is_wp_error( $cats ) ? strtoupper( $cats[0]->name ) : '';
+					$cat_name = $cats && ! is_wp_error( $cats ) ? ucfirst( strtolower( $cats[0]->name ) ) : '';
 					$cities   = get_the_terms( get_the_ID(), Nekoko_Taxonomies::CITY );
 					$city     = $cities && ! is_wp_error( $cities ) ? $cities[0]->name : '';
 					$price    = get_post_meta( get_the_ID(), '_nekoko_price', true );
@@ -63,7 +63,7 @@ $placeholders = [
 							<h3 class="nekoko-hp-card__title"><?php the_title(); ?></h3>
 							<div class="nekoko-hp-card__footer">
 								<span class="nekoko-hp-card__city">📍 <?php echo esc_html( $city ); ?></span>
-								<span class="nekoko-hp-card__price">
+								<span class="nekoko-hp-card__price nekoko-hp-card__price--blue">
 									<?php echo $price > 0
 										? esc_html( number_format( $price, 0, '.', '.' ) ) . ' din'
 										: 'Po dogovoru'; ?>
@@ -81,7 +81,7 @@ $placeholders = [
 							<h3 class="nekoko-hp-card__title"><?php echo esc_html( $ph['title'] ); ?></h3>
 							<div class="nekoko-hp-card__footer">
 								<span class="nekoko-hp-card__city">📍 <?php echo esc_html( $ph['city'] ); ?></span>
-								<span class="nekoko-hp-card__price">
+								<span class="nekoko-hp-card__price nekoko-hp-card__price--blue">
 									<?php echo $ph['price'] > 0
 										? esc_html( number_format( $ph['price'], 0, '.', '.' ) ) . ' din'
 										: 'Po dogovoru'; ?>
