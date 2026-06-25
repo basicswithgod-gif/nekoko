@@ -58,7 +58,7 @@ class Nekoko_Blocks {
 			'category'        => 'nekoko',
 			'icon'            => 'cover-image',
 			'keywords'        => [ 'hero', 'homepage', 'banner' ],
-			'mode'            => 'preview',
+			'mode'            => 'edit',
 			'supports'        => [ 'align' => false, 'jsx' => false ],
 		] );
 
@@ -70,7 +70,7 @@ class Nekoko_Blocks {
 			'category'        => 'nekoko',
 			'icon'            => 'search',
 			'keywords'        => [ 'search', 'pretraga' ],
-			'mode'            => 'preview',
+			'mode'            => 'edit',
 			'supports'        => [ 'align' => false ],
 		] );
 
@@ -82,7 +82,7 @@ class Nekoko_Blocks {
 			'category'        => 'nekoko',
 			'icon'            => 'list-view',
 			'keywords'        => [ 'offer', 'ponuda', 'jobs' ],
-			'mode'            => 'preview',
+			'mode'            => 'edit',
 			'supports'        => [ 'align' => false ],
 		] );
 
@@ -94,7 +94,7 @@ class Nekoko_Blocks {
 			'category'        => 'nekoko',
 			'icon'            => 'grid-view',
 			'keywords'        => [ 'categories', 'kategorije' ],
-			'mode'            => 'preview',
+			'mode'            => 'edit',
 			'supports'        => [ 'align' => false ],
 		] );
 
@@ -106,7 +106,7 @@ class Nekoko_Blocks {
 			'category'        => 'nekoko',
 			'icon'            => 'list-view',
 			'keywords'        => [ 'request', 'potraznja', 'jobs' ],
-			'mode'            => 'preview',
+			'mode'            => 'edit',
 			'supports'        => [ 'align' => false ],
 		] );
 	}
