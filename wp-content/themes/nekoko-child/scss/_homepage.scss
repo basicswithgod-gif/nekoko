@@ -217,6 +217,10 @@
 
 	&--offer {
 		background: v.$color-light;
+
+		.nekoko-hp-card__category {
+			color: v.$color-blue;
+		}
 	}
 
 	&--request {

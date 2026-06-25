@@ -35,7 +35,9 @@ $badge_label  = get_field( 'hero_badge_label' )         ?: 'aktivnih oglasa';
 
 		<div class="nekoko-hp-hero__images">
 			<div class="nekoko-hp-hero__grid">
-				<?php for ( $i = 0; $i < 4; $i++ ) :
+				<?php
+				$fallback_url = get_stylesheet_directory_uri() . '/assets/images/stock-photos.png';
+				for ( $i = 0; $i < 4; $i++ ) :
 					$img = ! empty( $images[ $i ]['image'] ) ? $images[ $i ]['image'] : null;
 					?>
 					<div class="nekoko-hp-hero__img-wrap">
@@ -44,7 +46,9 @@ $badge_label  = get_field( 'hero_badge_label' )         ?: 'aktivnih oglasa';
 							     alt="<?php echo esc_attr( $img['alt'] ?? '' ); ?>"
 							     loading="<?php echo $i < 2 ? 'eager' : 'lazy'; ?>">
 						<?php else : ?>
-							<div class="nekoko-hp-hero__img-placeholder"></div>
+							<img src="<?php echo esc_url( $fallback_url ); ?>"
+							     alt="NekoKo"
+							     loading="<?php echo $i < 2 ? 'eager' : 'lazy'; ?>">
 						<?php endif; ?>
 					</div>
 				<?php endfor; ?>
