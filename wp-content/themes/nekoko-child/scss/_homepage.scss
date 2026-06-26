@@ -659,6 +659,15 @@
 	}
 }
 
+// Text alignment restored via SCSS (stripped during Phase 2 nested-p fix)
+.nekoko-section-center p {
+	text-align: center;
+}
+
+.nekoko-job-card .wp-block-column:last-child p {
+	text-align: right;
+}
+
 // Search form (S2)
 .nekoko-hp-search-section .wp-block-columns {
 	align-items: flex-start !important;
