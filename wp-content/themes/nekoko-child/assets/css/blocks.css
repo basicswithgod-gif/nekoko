@@ -1,0 +1,437 @@
+/* ══════════════════════════════════════════════════════
+   GUTENBERG BLOCK STILOVI – NekoKo
+   Primenjuju se na sve blokove na početnoj strani.
+══════════════════════════════════════════════════════ */
+
+/* ── Full-width sekcije ─────────────────────────────── */
+.nekoko-home .wp-block-group.alignfull {
+  padding-left: max(1.5rem, env(safe-area-inset-left));
+  padding-right: max(1.5rem, env(safe-area-inset-right));
+}
+
+/* Gutenberg constrained layout centrira sadržaj automatski */
+.nekoko-home .wp-block-group[class*="is-layout-constrained"] > * {
+  max-width: var(--nk-container);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── Badge (mala etiketa iznad naslova) ─────────────── */
+.nk-badge {
+  display: inline-block;
+  background: rgba(189, 67, 63, 0.1);
+  color: var(--nk-red);
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  padding: 0.3rem 0.9rem !important;
+  border-radius: 20px;
+  margin-bottom: 0.75rem !important;
+  line-height: 1.4 !important;
+}
+
+/* ── Sekcija labela (Ponuđači / Korisnici) ──────────── */
+.nk-section-label {
+  display: inline-block;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: var(--nk-blue) !important;
+  border-left: 3px solid var(--nk-yellow);
+  padding-left: 0.5rem;
+  margin-bottom: 0.5rem !important;
+}
+
+/* ── Hero sekcija ───────────────────────────────────── */
+.nk-hero {
+  background-color: var(--nk-bg) !important;
+}
+.nk-hero .wp-block-columns {
+  align-items: center;
+}
+.nk-hero h1.wp-block-heading {
+  font-size: clamp(2rem, 4vw, 2.9rem) !important;
+  line-height: 1.2 !important;
+  font-weight: 700 !important;
+  color: var(--nk-blue) !important;
+  margin-bottom: 1rem;
+}
+.nk-lead {
+  font-size: 1.05rem !important;
+  line-height: 1.75 !important;
+  color: var(--nk-muted) !important;
+}
+.nk-stat {
+  font-size: 0.875rem !important;
+  color: var(--nk-muted) !important;
+  margin-top: 1.5rem !important;
+}
+.nk-stat strong { color: var(--nk-blue); }
+
+/* Mozaik slika u hero sekciji */
+.nk-hero-mosaic img {
+  width: 100%;
+  border-radius: var(--nk-radius-lg);
+  box-shadow: var(--nk-shadow-md);
+  object-fit: cover;
+}
+
+/* ── Pretraga sekcija ───────────────────────────────── */
+.nk-search-section {
+  background-color: var(--nk-bg-alt) !important;
+}
+.nk-search-section .wp-block-heading {
+  font-size: 1.85rem !important;
+  color: var(--nk-text) !important;
+}
+
+/* Search bar */
+.nk-search-wrap { max-width: 720px; margin: 1.5rem auto 0; }
+.nk-search-bar {
+  display: flex;
+  gap: 0;
+  background: #fff;
+  border: 1.5px solid var(--nk-border);
+  border-radius: var(--nk-radius);
+  padding: 0.35rem 0.35rem 0.35rem 1rem;
+  box-shadow: var(--nk-shadow);
+  align-items: center;
+}
+.nk-search-bar__input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: var(--nk-font);
+  font-size: 0.95rem;
+  color: var(--nk-text);
+  background: transparent;
+  min-width: 0;
+  padding: 0.4rem 0.5rem 0.4rem 0;
+}
+.nk-search-bar__input::placeholder { color: var(--nk-muted); }
+.nk-search-bar__cat {
+  border: none;
+  border-left: 1px solid var(--nk-border);
+  outline: none;
+  font-family: var(--nk-font);
+  font-size: 0.875rem;
+  color: var(--nk-text);
+  background: transparent;
+  cursor: pointer;
+  padding: 0.4rem 0.75rem;
+  flex-shrink: 0;
+}
+.nk-search-bar__btn {
+  background: var(--nk-yellow);
+  color: var(--nk-text);
+  border: none;
+  border-radius: 7px;
+  padding: 0.6rem 1.4rem;
+  font-family: var(--nk-font);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+  flex-shrink: 0;
+  margin-left: 0.35rem;
+}
+.nk-search-bar__btn:hover { background: #e5a320; }
+
+/* ── Istaknite / highlight sekcija ─────────────────── */
+.nk-highlight-section {
+  background: #fff !important;
+}
+.nk-highlight-section .wp-block-columns {
+  align-items: center;
+  gap: 4rem;
+}
+
+/* ── Oglas kartica (preview card u highlight sekciji) ─ */
+.nk-preview-card {
+  background: #fff;
+  border: 1px solid var(--nk-border);
+  border-radius: var(--nk-radius);
+  box-shadow: var(--nk-shadow);
+  overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.nk-preview-card:hover {
+  box-shadow: var(--nk-shadow-md);
+  transform: translateY(-2px);
+}
+.nk-preview-card .wp-block-image img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 0;
+}
+.nk-preview-card-body { padding: 1rem 1.25rem 1.25rem; }
+.nk-preview-card .nk-card-category {
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.9px;
+  color: var(--nk-blue) !important;
+  margin-bottom: 0.35rem !important;
+}
+.nk-preview-card .nk-card-title {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  color: var(--nk-text) !important;
+  margin-bottom: 0.4rem !important;
+}
+.nk-preview-card .nk-card-desc {
+  font-size: 0.85rem !important;
+  color: var(--nk-muted) !important;
+  line-height: 1.55 !important;
+  margin-bottom: 0.75rem !important;
+}
+.nk-preview-card .nk-card-meta {
+  font-size: 0.8rem !important;
+  color: var(--nk-muted) !important;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0 !important;
+}
+
+/* ── Top kategorije sekcija ─────────────────────────── */
+.nk-categories-section {
+  background-color: var(--nk-bg-alt) !important;
+}
+.nk-categories-section .wp-block-heading {
+  text-align: center;
+  font-size: 1.6rem !important;
+  color: var(--nk-text) !important;
+}
+.nk-categories-section .nk-section-subtitle {
+  text-align: center;
+  color: var(--nk-muted) !important;
+  font-size: 0.95rem !important;
+}
+.nk-categories-section .wp-block-columns {
+  margin-top: 2rem;
+}
+.nk-categories-section .wp-block-column {
+  text-align: center;
+}
+
+/* Kategorija ikonice */
+.nk-cat-item { text-align: center; }
+.nk-cat-icon {
+  width: 68px; height: 68px;
+  background: #fff;
+  border: 2px solid var(--nk-border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.75rem;
+  font-size: 1.6rem;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+  cursor: pointer;
+}
+.nk-cat-item:hover .nk-cat-icon {
+  border-color: var(--nk-blue);
+  box-shadow: 0 0 0 4px rgba(0, 70, 130, 0.08);
+  transform: translateY(-2px);
+}
+.nk-cat-label {
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  color: var(--nk-text) !important;
+  margin: 0 !important;
+}
+.nk-cat-count {
+  font-size: 0.75rem !important;
+  color: var(--nk-muted) !important;
+  margin: 0.2rem 0 0 !important;
+}
+
+/* ── Oglasi grid (featured listings) ───────────────── */
+.nk-listings-section {
+  background: #fff !important;
+}
+.nk-listings-section .wp-block-heading {
+  font-size: 1.6rem !important;
+  text-align: center;
+}
+.nk-oglas-card {
+  background: #fff;
+  border: 1px solid var(--nk-border);
+  border-radius: var(--nk-radius);
+  overflow: hidden;
+  box-shadow: var(--nk-shadow);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.nk-oglas-card:hover {
+  box-shadow: var(--nk-shadow-md);
+  transform: translateY(-2px);
+}
+.nk-oglas-card .wp-block-image img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+.nk-oglas-card-body { padding: 1rem 1.2rem 1.2rem; }
+.nk-oglas-card .nk-card-category {
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.9px;
+  color: var(--nk-blue) !important;
+  margin-bottom: 0.4rem !important;
+}
+.nk-oglas-card .wp-block-heading {
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  color: var(--nk-text) !important;
+  margin-bottom: 0.4rem !important;
+  text-align: left !important;
+}
+.nk-oglas-card .nk-card-desc {
+  font-size: 0.84rem !important;
+  color: var(--nk-muted) !important;
+  line-height: 1.55 !important;
+}
+.nk-oglas-card .nk-card-price {
+  font-size: 0.85rem !important;
+  color: var(--nk-muted) !important;
+  margin-top: 0.75rem !important;
+  margin-bottom: 0 !important;
+  border-top: 1px solid var(--nk-gray-mid);
+  padding-top: 0.6rem;
+}
+.nk-oglas-card .nk-card-price strong { color: var(--nk-blue); }
+
+/* ── CTA Potražnja sekcija ──────────────────────────── */
+.nk-cta-section {
+  background-color: var(--nk-yellow) !important;
+}
+.nk-cta-section .wp-block-columns {
+  align-items: center;
+}
+.nk-cta-section .wp-block-heading {
+  color: var(--nk-text) !important;
+  font-size: clamp(1.5rem, 3vw, 2.2rem) !important;
+}
+.nk-cta-section p {
+  color: rgba(46, 46, 46, 0.75) !important;
+  font-size: 1rem !important;
+}
+.nk-cta-section .wp-block-button .wp-block-button__link {
+  background-color: var(--nk-blue) !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+  font-size: 0.95rem !important;
+  font-weight: 700 !important;
+  padding: 0.8rem 2rem !important;
+}
+.nk-cta-section .wp-block-button .wp-block-button__link:hover {
+  background-color: var(--nk-blue-dark) !important;
+  transform: translateY(-1px);
+}
+
+/* ── Gutenberg button globalni stilovi ──────────────── */
+.wp-block-button .wp-block-button__link {
+  font-family: var(--nk-font) !important;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+.wp-block-button .wp-block-button__link:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Separator dekorativni */
+.nk-separator {
+  border: none;
+  border-top: 2px solid var(--nk-yellow);
+  width: 48px;
+  margin: 0.5rem auto 2rem !important;
+}
+
+/* ── Responsive ─────────────────────────────────────── */
+@media (max-width: 768px) {
+  .nk-search-bar {
+    flex-direction: column;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    gap: 0.75rem;
+  }
+  .nk-search-bar__input {
+    background: #fff;
+    border: 1.5px solid var(--nk-border);
+    border-radius: var(--nk-radius-sm);
+    padding: 0.7rem 1rem;
+    width: 100%;
+  }
+  .nk-search-bar__cat {
+    background: #fff;
+    border: 1.5px solid var(--nk-border);
+    border-left: 1.5px solid var(--nk-border);
+    border-radius: var(--nk-radius-sm);
+    padding: 0.7rem 1rem;
+    width: 100%;
+  }
+  .nk-search-bar__btn {
+    width: 100%;
+    text-align: center;
+    border-radius: var(--nk-radius-sm);
+    padding: 0.75rem;
+    margin-left: 0;
+  }
+  .nk-hero h1.wp-block-heading {
+    font-size: clamp(1.75rem, 7vw, 2.4rem) !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .nk-categories-section .wp-block-columns {
+    flex-wrap: wrap;
+  }
+  .nk-categories-section .wp-block-column {
+    flex-basis: calc(33.33% - 1rem) !important;
+    min-width: calc(33.33% - 1rem);
+  }
+}
+
+/* ── Featured Categories Block ───────────────────────── */
+.nk-featured-categories .nk-section-inner {
+    max-width: var(--nk-container);
+    margin: 0 auto;
+    padding: 4rem 1.5rem 4.5rem;
+}
+.nk-featured-categories .nk-cat-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+/* ── Featured Jobs Block ─────────────────────────────── */
+.nk-featured-jobs .nk-section-inner {
+    max-width: var(--nk-container);
+    margin: 0 auto;
+    padding: 4.5rem 1.5rem;
+}
+.nk-featured-jobs .nk-jobs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 900px) {
+    .nk-featured-categories .nk-cat-grid { grid-template-columns: repeat(3, 1fr); }
+    .nk-featured-jobs .nk-jobs-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+    .nk-featured-categories .nk-cat-grid { grid-template-columns: repeat(2, 1fr); }
+    .nk-featured-jobs .nk-jobs-grid { grid-template-columns: 1fr; }
+}

@@ -61,3 +61,6 @@ function nekoko_child_theme_supports() {
 	add_theme_support( 'title-tag' );
 	add_theme_support( 'post-thumbnails' );
 }
+
+// ── Dynamic Blocks ────────────────────────────────────────
+require_once get_stylesheet_directory() . '/inc/blocks.php';
